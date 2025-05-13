@@ -29,17 +29,26 @@ cmake .. -G Ninja \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ninja
 
+# Find windeployqt.exe from external Qt installation path
+QT_ROOT="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt"
+WINDEPLOYQT_EXE=$(find "$QT_ROOT" -type f -name windeployqt.exe | head -n 1)
+if [ -z "$WINDEPLOYQT_EXE" ]; then
+    echo "Error: windeployqt.exe not found"
+    exit 1
+fi
+echo "Found windeployqt at: $WINDEPLOYQT_EXE"
+
 # Use windeployqt to gather dependencies
 EXE_PATH=./bin/eden.exe
 mkdir deploy
 cp -r bin/* deploy/
-"D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.7.3/msvc2019_64/bin/windeployqt.exe" --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
+"$WINDEPLOYQT_EXE" --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 
 # Delete un-needed debug files 
-find deploy -type f -name "*.pdb" -exec rm -f {} +
+find deploy -type f -name "*.pdb" -exec rm -fv {} +
 # Delete DX components, users should have them already
-rm -f deploy/dxcompiler.dll
-rm -f deploy/dxil.dll
+rm -fv deploy/dxcompiler.dll
+rm -fv deploy/dxil.dll
 
 # Pack for upload
 mkdir -p artifacts
