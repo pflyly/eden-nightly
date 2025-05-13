@@ -40,7 +40,6 @@ find deploy -type f -name "*.pdb" -exec rm -f {} +
 rm -f deploy/dxcompiler.dll
 rm -f deploy/dxil.dll
 
-
 # Pack for upload
 mkdir -p artifacts
 mkdir "$EXE_NAME"
