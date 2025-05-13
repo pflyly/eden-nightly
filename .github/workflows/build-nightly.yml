@@ -81,8 +81,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update -y
-          sudo apt-get install ccache apksigner glslang-tools libvulkan-dev -y
+          sudo apt-get install glslang-tools libvulkan-dev -y
           
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -97,11 +96,6 @@ jobs:
         
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
-        
-      - name: Accept Android SDK Licenses
-        run:  |
-          yes | sdkmanager --licenses
-          sdkmanager "ndk;26.1.10909125" "cmake;3.22.1"
 
       - name: Compile Eden android
         run: |
