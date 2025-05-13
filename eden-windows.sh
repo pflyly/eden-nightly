@@ -32,7 +32,7 @@ ninja
 EXE_PATH=./bin/eden.exe
 mkdir deploy
 cp -r bin/* deploy/
-windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
+"D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.7.3/msvc2019_64/bin/windeployqt.exe" --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 
 # Delete un-needed debug files 
 find deploy -type f -name "*.pdb" -exec rm -f {} +
