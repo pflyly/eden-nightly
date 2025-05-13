@@ -63,10 +63,10 @@ jobs:
       - name: Check hash file
         run: |
           cat ~/hash
-          echo "APP_VERSION=$(cat ~/version)" >> "${GITHUB_ENV}"
+          echo "APP_VERSION=$(cat ~/hash)" >> "${GITHUB_ENV}"
 
       - name: Upload hash file
-        if: ${{ matrix.target == 'steamdeck' }}
+        if: ${{ matrix.target == 'check' }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: hash
