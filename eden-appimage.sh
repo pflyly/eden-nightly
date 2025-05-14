@@ -36,8 +36,8 @@ case "$1" in
     aarch64)
         echo "Making Eden Optimized Build for AArch64"
         CMAKE_EXE_LINKER_FLAGS="-Wl,-O3 -Wl,--as-needed"
-        CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -Wno-error=conversion -Wno-error=shadow"
-        CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -Wno-error=conversion -Wno-error=shadow"
+        CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
+        CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         YUZU_ENABLE_LTO=ON
         TARGET="AArch64"
         ;;
@@ -65,6 +65,11 @@ COUNT="$(git rev-list --count HEAD)"
 HASH="$(git rev-parse --short HEAD)"
 DATE="$(date +"%Y%m%d")"
 git submodule update --init --recursive -j$(nproc)
+
+# workaround for aarch64
+if [ "$1" = 'aarch64' ]; then
+    sed -i '/sse2neon/d' ./src/video_core/CMakeLists.txt
+fi
 
 mkdir build
 cd build
