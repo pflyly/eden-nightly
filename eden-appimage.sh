@@ -36,8 +36,8 @@ case "$1" in
     aarch64)
         echo "Making Eden Optimized Build for AArch64"
         CMAKE_EXE_LINKER_FLAGS="-Wl,-O3 -Wl,--as-needed"
-        CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -Wno-error"
-        CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -Wno-error"
+        CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -Wno-error=conversion -Wno-error=shadow"
+        CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -Wno-error=conversion -Wno-error=shadow"
         YUZU_ENABLE_LTO=ON
         TARGET="AArch64"
         ;;
