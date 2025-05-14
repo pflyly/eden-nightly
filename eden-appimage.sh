@@ -66,6 +66,11 @@ HASH="$(git rev-parse --short HEAD)"
 DATE="$(date +"%Y%m%d")"
 git submodule update --init --recursive -j$(nproc)
 
+# workaround for aarch64
+if [ "$1" = 'aarch64' ]; then
+    sed -i 's/Settings::values\.lru_cache_enabled\.GetValue()/true/' src/core/arm/nce/patcher.h
+fi
+
 mkdir build
 cd build
 cmake .. -GNinja \
