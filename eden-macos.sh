@@ -2,8 +2,8 @@
 
 echo "Making Eden for MacOS"
 
-export Qt6_DIR="/opt/homebrew/opt/qt@6/lib/cmake"
-export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.dylib
+# export Qt6_DIR="/opt/homebrew/opt/qt@6/lib/cmake"
+# export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.dylib
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
