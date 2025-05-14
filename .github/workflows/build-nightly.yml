@@ -160,8 +160,7 @@ jobs:
       security-events: write
       contents: write
     runs-on: ubuntu-latest
-    steps:
-    
+    steps:    
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-steamdeck-appimage
@@ -176,7 +175,12 @@ jobs:
         with:
            name: eden-common-appimage
         continue-on-error: true
-           
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-aarch64-appimage
+        continue-on-error: true
+        
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-android-universal
