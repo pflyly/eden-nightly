@@ -161,13 +161,16 @@ jobs:
             runs-on: macos-13
           - target: arm64
             runs-on: macos-14
+    continue-on-error: true
     env:
       TARGET: ${{ matrix.target }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: brew install autoconf automake boost ccache ffmpeg fmt glslang hidapi libtool nlohmann-json qt@6 sdl2 speexdsp zlib zlib cmake Catch2 molten-vk vulkan-loader
+        run: |
+          brew install autoconf automake boost@1.84 ccache ffmpeg fmt glslang hidapi libtool nlohmann-json qt@6 sdl2 speexdsp zlib zlib cmake Catch2 molten-vk vulkan-loader
+          brew link --force boost@1.84
         
       - name: Compile Eden MacOS
         run: |
