@@ -120,7 +120,7 @@ jobs:
           
   windows:
     runs-on: windows-latest
-    name: "Eden nightly (windows)"
+    name: "Eden nightly windows (MSVC)"
     defaults:
       run:
         shell: bash
@@ -130,10 +130,10 @@ jobs:
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
        
-      - name: Install extra tools (MSVC)
+      - name: Install extra tools
         run: choco install cmake 7zip wget -y --no-progress
                 
-      - name: Install vulkan-sdk (MSVC)
+      - name: Install vulkan-sdk
         run: |
            wget -q https://sdk.lunarg.com/sdk/download/1.4.309.0/windows/VulkanSDK-1.4.309.0-Installer.exe -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
@@ -151,6 +151,35 @@ jobs:
           name: eden-windows-msvc
           path: eden/build/artifacts/
           
+  macos:
+    runs-on: ${{ matrix.runs-on }}
+    name: "Eden nightly macos (${{ matrix.target }})"
+    strategy:
+      matrix:
+       include:
+          - target: x86_64
+            runs-on: macos-13
+          - target: arm64
+            runs-on: macos-14
+    env:
+      TARGET: ${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: brew install ninja spirv-tools p7zip
+        
+      - name: Compile Eden MacOS
+        run: |
+          chmod +x ./eden-macos.sh
+          ./eden-macos.sh
+          
+      - name: Upload
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: eden-macos-${{ matrix.target }}
+          path: eden/build/artifacts/
+                    
   release:
     name: "release"
     if: ${{ always() && github.ref_name == 'main' }}
