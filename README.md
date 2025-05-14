@@ -11,9 +11,9 @@
 [![CI Build Status](https://github.com//pflyly/eden-nightly/actions/workflows/build-nightly.yml/badge.svg)](https://github.com/pflyly/eden-nightly/releases/latest)
 
 > [!IMPORTANT]
-> This repository makes nightly release of eden for Linux, Android and Windows.
+> This repository makes nightly release of eden for Linux, Linux-arm64, Android and Windows.
 >  
-> For Linux, the AppImage is made with several flags of optimization especially targeted for **Steamdeck** & **ROG ALLY X** & **Modern CPUs**(Common Build).
+> For Linux, the AppImage is made with several flags of optimization especially targeted for **Steamdeck** & **ROG ALLY X** & **Modern CPUs**(Common Build) & **AArch64**.
 
 * [**Latest Nightly Release Here**](https://github.com/pflyly/eden-nightly/releases/latest)
 
