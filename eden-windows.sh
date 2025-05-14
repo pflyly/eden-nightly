@@ -2,6 +2,7 @@
 
 echo "Making Eden for Windows (MSVC)"
 export PATH="$PATH:/c/ProgramData/chocolatey/bin"
+export ARCH="$(uname -m)"
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
@@ -15,7 +16,7 @@ git submodule update --init --recursive
 COUNT="$(git rev-list --count HEAD)"
 HASH="$(git rev-parse --short HEAD)"
 DATE="$(date +"%Y%m%d")"
-EXE_NAME="Eden-nightly-${DATE}-${COUNT}-${HASH}-Windows-MSVC"
+EXE_NAME="Eden-nightly-${DATE}-${COUNT}-${HASH}-Windows-MSVC-${ARCH}"
 
 mkdir build
 cd build
@@ -30,8 +31,7 @@ cmake .. -G Ninja \
 ninja
 
 # Find windeployqt.exe from external Qt installation path
-QT_ROOT="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt"
-WINDEPLOYQT_EXE=$(find "$QT_ROOT" -type f -name windeployqt.exe | head -n 1)
+WINDEPLOYQT_EXE=$(find ./externals/qt -type f -name windeployqt.exe | head -n 1)
 if [ -z "$WINDEPLOYQT_EXE" ]; then
     echo "Error: windeployqt.exe not found"
     exit 1
