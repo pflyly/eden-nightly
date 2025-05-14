@@ -66,12 +66,6 @@ HASH="$(git rev-parse --short HEAD)"
 DATE="$(date +"%Y%m%d")"
 git submodule update --init --recursive -j$(nproc)
 
-# workaround for aarch64, this function has already been removed in citron
-if [ "$1" = 'aarch64' ]; then
-    sed -i '/sse2neon/d' ./src/video_core/CMakeLists.txt
-    sed -i 's|^\(#include <sse2neon\.h>\)|// \1|' ./src/video_core/host1x/vic.cpp
-fi
-
 mkdir build
 cd build
 cmake .. -GNinja \
