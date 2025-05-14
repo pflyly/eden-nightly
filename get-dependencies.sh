@@ -6,6 +6,8 @@ sed -i 's/DownloadUser/#DownloadUser/g' /etc/pacman.conf
 
 if [ "$(uname -m)" = 'x86_64' ]; then
 	PKG_TYPE='x86_64.pkg.tar.zst'
+else
+	PKG_TYPE='aarch64.pkg.tar.xz'
 fi
 
 LLVM_URL="https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/llvm-libs-nano-$PKG_TYPE"
@@ -68,9 +70,9 @@ pacman -Syu --noconfirm \
 	qt6-multimedia \
 	qt6-tools \
 	qt6-wayland \
-    rapidjson \
+ 	rapidjson \
 	sdl2 \
-    sdl3 \
+ 	sdl3 \
 	strace \
 	unzip \
 	vulkan-headers \
@@ -88,6 +90,8 @@ pacman -Syu --noconfirm \
 
 if [ "$(uname -m)" = 'x86_64' ]; then
 	pacman -Syu --noconfirm vulkan-intel haskell-gnutls gcc13 svt-av1
+else
+	pacman -Syu --noconfirm vulkan-freedreno vulkan-panfrost
 fi
 
 
