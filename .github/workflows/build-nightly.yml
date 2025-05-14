@@ -166,8 +166,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install tools
-        run: brew install ninja spirv-tools p7zip
+      - name: Install dependencies
+        run: brew install autoconf automake boost ccache ffmpeg fmt glslang hidapi libtool libusb lz4 ninja nlohmann-json openssl pkg-config qt@6 sdl2 speexdsp zlib zlib zstd cmake Catch2 molten-vk vulkan-loader
         
       - name: Compile Eden MacOS
         run: |
