@@ -28,12 +28,13 @@ cmake .. -GNinja \
     -DUSE_DISCORD_PRESENCE=OFF \
     -DENABLE_WEB_SERVICE=OFF \
     -DCMAKE_OSX_ARCHITECTURES="$TARGET" \
+    -DCMAKE_CXX_FLAGS="-Wno-error" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ninja
 
 # Find macdeployqt from external Qt installation path
-MACDEPLOYQT=$(find ./externals/qt/ -type f -name macdeployqt* | head -n 1)
+MACDEPLOYQT=$(find ./externals/qt/ -type f -name macdeployqt6 | head -n 1)
 if [ -z "$MACDEPLOYQT" ]; then
     echo "Error: macdeployqt not found"
     exit 1
