@@ -39,7 +39,7 @@ case "$1" in
         CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         YUZU_ENABLE_LTO=ON
-        TARGET="AArch64"
+        TARGET="ARM64"
         ;;
     check)
         echo "Checking build"
