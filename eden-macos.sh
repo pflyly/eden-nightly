@@ -2,9 +2,9 @@
 
 echo "Making Eden for MacOS"
 if [ "$TARGET" = "arm64" ]; then
-    export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.dylib
+    export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.1.dylib
 else
-    export LIBVULKAN_PATH=/usr/local/lib/libvulkan.dylib
+    export LIBVULKAN_PATH=/usr/local/lib/libvulkan.1.dylib
 fi
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
@@ -41,9 +41,8 @@ ninja
 APP=./bin/eden.app
 macdeployqt "$APP" -verbose=3
 cp "$LIBVULKAN_PATH" "$APP/Contents/Frameworks/"
-install_name_tool -id @rpath/libvulkan.dylib "$APP/Contents/Frameworks/libvulkan.dylib"
+install_name_tool -id @rpath/libvulkan.1.dylib "$APP/Contents/Frameworks/libvulkan.1.dylib"
 install_name_tool -add_rpath @executable_path/../Frameworks "$APP/Contents/MacOS/eden"
-# install_name_tool -change "$LIBVULKAN_PATH" "@executable_path/../Frameworks/libvulkan.dylib" "$APP/Contents/MacOS/eden"
 otool -L "$APP/Contents/MacOS/eden"
 codesign --deep --force --verify --verbose --sign - ./bin/eden.app
 
