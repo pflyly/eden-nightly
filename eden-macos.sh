@@ -3,10 +3,8 @@
 echo "Making Eden for MacOS"
 if [ "$TARGET" = "arm64" ]; then
     export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.1.dylib
-    export LIBMOLTENVK_PATH=/opt/homebrew/lib/libMoltenVK.dylib
 else
     export LIBVULKAN_PATH=/usr/local/lib/libvulkan.1.dylib
-    export LIBMOLTENVK_PATH=/usr/local/lib/libMoltenVK.dylib
 fi
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
@@ -32,7 +30,6 @@ cmake .. -GNinja \
     -DENABLE_QT_TRANSLATION=ON \
     -DYUZU_ENABLE_LTO=ON \
     -DUSE_DISCORD_PRESENCE=OFF \
-    -DENABLE_WEB_SERVICE=OFF \
     -DCMAKE_OSX_ARCHITECTURES="$TARGET" \
     -DCMAKE_CXX_FLAGS="-w" \
     -DCMAKE_BUILD_TYPE=Release \
@@ -43,11 +40,6 @@ ninja
 APP=./bin/eden.app
 macdeployqt "$APP" -verbose=3
 cp "$LIBVULKAN_PATH" "$APP/Contents/Frameworks/"
-install_name_tool -id @rpath/libvulkan.1.dylib "$APP/Contents/Frameworks/libvulkan.1.dylib"
-install_name_tool -change "$LIBMOLTENVK_PATH" @rpath/libMoltenVK.dylib "$APP/Contents/Frameworks/libvulkan.1.dylib"
-install_name_tool -add_rpath @executable_path/../Frameworks "$APP/Contents/MacOS/eden"
-install_name_tool -add_rpath @loader_path/../Frameworks "$APP/Contents/Frameworks/libvulkan.1.dylib"
-otool -L "$APP/Contents/MacOS/eden"
 codesign --deep --force --verify --verbose --sign - "$APP"
 
 # Pack for upload
