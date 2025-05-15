@@ -1,7 +1,7 @@
 name: Build Eden Nightly
-concurrency:
-  group: build-nightly-${{ github.ref }}
-  cancel-in-progress: true
+#concurrency:
+#  group: build-nightly-${{ github.ref }}
+#  cancel-in-progress: true
 
 on:
   push:
