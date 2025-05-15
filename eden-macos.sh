@@ -33,7 +33,8 @@ cmake .. -GNinja \
 ninja
 
 # Pack for upload
-macdeployqt ./bin/eden.app -verbose=3 -dmg
+macdeployqt ./bin/eden.app -verbose=3
+codesign --deep -fs ./bin/eden.app
 mkdir -p artifacts
 mkdir "$APP_NAME"
 mv ./bin/eden.app "$APP_NAME"
