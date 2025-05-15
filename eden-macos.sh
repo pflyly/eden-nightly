@@ -28,21 +28,13 @@ cmake .. -GNinja \
     -DUSE_DISCORD_PRESENCE=OFF \
     -DENABLE_WEB_SERVICE=OFF \
     -DCMAKE_OSX_ARCHITECTURES="$TARGET" \
-    -DCMAKE_CXX_FLAGS="-Wno-error" \
+    -DCMAKE_CXX_FLAGS="-w" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ninja
 
-# Find macdeployqt from external Qt installation path
-MACDEPLOYQT=$(find ./externals/qt/ -type f -name macdeployqt6 | head -n 1)
-if [ -z "$MACDEPLOYQT" ]; then
-    echo "Error: macdeployqt not found"
-    exit 1
-fi
-echo "Found macdeployqt at: $MACDEPLOYQT"
-
 # Pack for upload
-"$MACDEPLOYQT" ./bin/eden.app -verbose=2
+macdeployqt ./bin/eden.app -verbose=2
 mkdir -p artifacts
 mkdir "$APP_NAME"
 mv ./bin/eden.app "$APP_NAME"
