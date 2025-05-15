@@ -1,7 +1,11 @@
 #!/bin/bash -ex
 
 echo "Making Eden for MacOS"
-export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.dylib
+if [ "$TARGET" = "arm64" ]; then
+    export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.dylib
+else
+    export LIBVULKAN_PATH=/usr/local/lib/libvulkan.dylib
+fi
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
@@ -34,15 +38,14 @@ cmake .. -GNinja \
 ninja
 
 # Pack for upload
-macdeployqt ./bin/eden.app -verbose=3
-LIBPATH=/opt/homebrew/lib/libvulkan.dylib
 APP=./bin/eden.app
-cp "$LIBPATH" "$APP/Contents/Frameworks/"
-install_name_tool -change "$LIBPATH" "@executable_path/../Frameworks/libvulkan.dylib" "$APP/Contents/MacOS/Eden"
+macdeployqt "$APP" -verbose=3
+cp "$LIBVULKAN_PATH" "$APP/Contents/Frameworks/"
+install_name_tool -change "$LIBVULKAN_PATH" "@executable_path/../Frameworks/libvulkan.dylib" "$APP/Contents/MacOS/eden"
 codesign --deep --force --verify --verbose --sign - ./bin/eden.app
 mkdir -p artifacts
 mkdir "$APP_NAME"
-mv ./bin/eden.app "$APP_NAME"
+cp -r ./bin/* "$APP_NAME"
 ZIP_NAME="$APP_NAME.7z"
 7z a -t7z -mx=9 "$ZIP_NAME" "$APP_NAME"
 mv "$ZIP_NAME" artifacts/
