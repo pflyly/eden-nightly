@@ -37,12 +37,15 @@ cmake .. -GNinja \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ninja
 
-# Pack for upload
+# Bundle and sign eden.app
 APP=./bin/eden.app
 macdeployqt "$APP" -verbose=3
 cp "$LIBVULKAN_PATH" "$APP/Contents/Frameworks/"
 install_name_tool -change "$LIBVULKAN_PATH" "@executable_path/../Frameworks/libvulkan.dylib" "$APP/Contents/MacOS/eden"
+otool -L "$APP/Contents/MacOS/eden"
 codesign --deep --force --verify --verbose --sign - ./bin/eden.app
+
+# Pack for upload
 mkdir -p artifacts
 mkdir "$APP_NAME"
 cp -r ./bin/* "$APP_NAME"
