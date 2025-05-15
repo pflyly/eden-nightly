@@ -20,6 +20,8 @@ mkdir build
 cd build
 cmake .. -GNinja \
     -DYUZU_TESTS=OFF \
+    -DYUZU_USE_BUNDLED_QT=OFF \
+    -DUSE_SYSTEM_QT=ON \
     -DENABLE_QT_TRANSLATION=ON \
     -DYUZU_ENABLE_LTO=ON \
     -DUSE_DISCORD_PRESENCE=OFF \
@@ -31,7 +33,7 @@ cmake .. -GNinja \
 ninja
 
 # Pack for upload
-macdeployqt ./bin/eden.app -verbose=2
+macdeployqt ./bin/eden.app -verbose=3 -dmg
 mkdir -p artifacts
 mkdir "$APP_NAME"
 mv ./bin/eden.app "$APP_NAME"
