@@ -39,7 +39,6 @@ ninja
 # Bundle and code-sign eden.app
 APP=./bin/eden.app
 macdeployqt "$APP" -verbose=3
-cp "$LIBVULKAN_PATH" "$APP/Contents/Frameworks/"
 codesign --deep --force --verify --verbose --sign - "$APP"
 
 # Pack for upload
