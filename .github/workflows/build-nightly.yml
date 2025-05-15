@@ -148,11 +148,7 @@ jobs:
                 
       - name: Install vulkan-sdk
         run: |
-           if [[ "${{ matrix.arch }}" == "ARM64" ]]; then
-                VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/warm/vulkansdk-windows-ARM64-1.4.313.0.exe"
-            else
-                VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
-            fi
+           VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
            wget -q "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
            echo "VULKAN_SDK=C:/VulkanSDK/1.4.313.0" >> $GITHUB_ENV
