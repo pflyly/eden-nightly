@@ -37,11 +37,13 @@ cmake .. -GNinja \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ninja
 
-# Bundle and sign eden.app
+# Bundle and code-sign eden.app
 APP=./bin/eden.app
 macdeployqt "$APP" -verbose=3
 cp "$LIBVULKAN_PATH" "$APP/Contents/Frameworks/"
-install_name_tool -change "$LIBVULKAN_PATH" "@executable_path/../Frameworks/libvulkan.dylib" "$APP/Contents/MacOS/eden"
+install_name_tool -id @rpath/libvulkan.dylib "$APP/Contents/Frameworks/libvulkan.dylib"
+install_name_tool -add_rpath @executable_path/../Frameworks "$APP/Contents/MacOS/eden"
+# install_name_tool -change "$LIBVULKAN_PATH" "@executable_path/../Frameworks/libvulkan.dylib" "$APP/Contents/MacOS/eden"
 otool -L "$APP/Contents/MacOS/eden"
 codesign --deep --force --verify --verbose --sign - ./bin/eden.app
 
