@@ -131,6 +131,7 @@ jobs:
     env:
       TARGET: ${{ matrix.target }}
       ARCH: ${{ matrix.arch }}
+    continue-on-error: true
     defaults:
       run:
         shell: bash
@@ -145,12 +146,12 @@ jobs:
       - name: Install extra tools
         run: choco install cmake 7zip wget -y --no-progress
                 
-      - name: Install vulkan-sdk ${{ matrix.target }}
+      - name: Install vulkan-sdk
         run: |
-           if [[ "${{ matrix.target }}" == "x86_64" ]]; then
-                VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
-            elif [[ "${{ matrix.target }}" == "x86_arm64" ]]; then
+           if [[ "${{ matrix.arch }}" == "ARM64" ]]; then
                 VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/warm/vulkansdk-windows-ARM64-1.4.313.0.exe"
+            else
+                VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
             fi
            wget -q "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
@@ -237,12 +238,12 @@ jobs:
  
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-windows-msvc-
+           name: eden-windows-msvc-x86_64
         continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-windows-msvc
+           name: eden-windows-msvc-x86_arm64
         continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
