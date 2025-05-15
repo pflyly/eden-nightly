@@ -172,7 +172,7 @@ jobs:
           brew install autoconf automake boost@1.85 ccache ffmpeg fmt glslang hidapi libtool nlohmann-json qt@6 sdl2 speexdsp zlib zlib cmake Catch2 molten-vk vulkan-loader
           brew link --force boost@1.85
         
-      - name: Compile Eden MacOS
+      - name: Compile Eden MacOS (${{ matrix.target }})
         run: |
           chmod +x ./eden-macos.sh
           ./eden-macos.sh
@@ -186,7 +186,7 @@ jobs:
   release:
     name: "release"
     if: ${{ always() && github.ref_name == 'main' }}
-    needs: [appimage, windows, android]
+    needs: [appimage, windows, android, macos]
     permissions:
       actions: read
       security-events: write
@@ -222,7 +222,17 @@ jobs:
         with:
            name: eden-windows-msvc
         continue-on-error: true
-           
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-macos-x86_64
+        continue-on-error: true
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-macos-arm64
+        continue-on-error: true
+        
       - uses: actions/download-artifact@v4.3.0
         with:
            name: hash
