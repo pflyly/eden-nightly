@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 echo "Making Eden for MacOS"
+export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.dylib
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
