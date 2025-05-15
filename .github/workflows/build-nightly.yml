@@ -120,7 +120,17 @@ jobs:
           
   windows:
     runs-on: windows-latest
-    name: "Eden nightly windows (MSVC)"
+    name: "Eden nightly windows (${{ matrix.target }})"
+    strategy:
+      matrix:
+        include:
+           - target: x86_64
+             arch: x64
+           - target: x86_arm64
+             arch: ARM64
+    env:
+      TARGET: ${{ matrix.target }}
+      ARCH: ${{ matrix.arch }}
     defaults:
       run:
         shell: bash
@@ -129,16 +139,23 @@ jobs:
             
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.target }}
        
       - name: Install extra tools
         run: choco install cmake 7zip wget -y --no-progress
                 
-      - name: Install vulkan-sdk
+      - name: Install vulkan-sdk ${{ matrix.target }}
         run: |
-           wget -q https://sdk.lunarg.com/sdk/download/1.4.309.0/windows/VulkanSDK-1.4.309.0-Installer.exe -O D:/a/_temp/vulkan.exe
+           if [[ "${{ matrix.target }}" == "x86_64" ]]; then
+                VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
+            elif [[ "${{ matrix.target }}" == "x86_arm64" ]]; then
+                VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/warm/vulkansdk-windows-ARM64-1.4.313.0.exe"
+            fi
+           wget -q "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
-           echo "VULKAN_SDK=C:/VulkanSDK/1.4.309.0" >> $GITHUB_ENV
-           echo "PATH=C:/VulkanSDK/1.4.309.0/Bin:$PATH" >> $GITHUB_ENV          
+           echo "VULKAN_SDK=C:/VulkanSDK/1.4.313.0" >> $GITHUB_ENV
+           echo "PATH=C:/VulkanSDK/1.4.313.0/Bin:$PATH" >> $GITHUB_ENV          
         
       - name: Compile Eden Windows
         run: |
@@ -148,7 +165,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: eden-windows-msvc
+          name: eden-windows-msvc-${{ matrix.target }}
           path: eden/build/artifacts/
           
   macos:
@@ -218,6 +235,11 @@ jobs:
            name: eden-android-universal
         continue-on-error: true
  
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-windows-msvc-
+        continue-on-error: true
+        
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-windows-msvc
