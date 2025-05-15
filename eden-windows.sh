@@ -1,8 +1,7 @@
 #!/bin/bash -ex
 
-echo "Making Eden for Windows (MSVC)"
+echo "Making Eden for Windows MSVC ${TARGET}"
 export PATH="$PATH:/c/ProgramData/chocolatey/bin"
-export ARCH="$(uname -m)"
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
@@ -27,6 +26,7 @@ cmake .. -G Ninja \
     -DUSE_DISCORD_PRESENCE=OFF \
     -DENABLE_WEB_SERVICE=OFF \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_GENERATOR_PLATFORM=${ARCH} \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ninja
 
