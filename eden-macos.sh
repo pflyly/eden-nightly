@@ -35,6 +35,10 @@ ninja
 
 # Pack for upload
 macdeployqt ./bin/eden.app -verbose=3
+LIBPATH=/opt/homebrew/lib/libvulkan.dylib
+APP=./bin/eden.app
+cp "$LIBPATH" "$APP/Contents/Frameworks/"
+install_name_tool -change "$LIBPATH" "@executable_path/../Frameworks/libvulkan.dylib" "$APP/Contents/MacOS/Eden"
 codesign --deep --force --verify --verbose --sign - ./bin/eden.app
 mkdir -p artifacts
 mkdir "$APP_NAME"
