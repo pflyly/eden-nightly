@@ -4,7 +4,7 @@ echo "Making Eden for Windows MSVC ${TARGET}"
 export PATH="$PATH:/c/ProgramData/chocolatey/bin"
 
 if [[ "${ARCH}" == "ARM64" ]]; then
-    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=OFF -DYUZU_USE_EXTERNAL_SDL2=ON)
+    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=ON -DYUZU_USE_EXTERNAL_SDL2=OFF)
 fi
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
