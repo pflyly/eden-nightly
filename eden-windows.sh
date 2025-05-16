@@ -13,8 +13,7 @@ cd ./eden
 git submodule update --init --recursive
 
 if [[ "${ARCH}" == "ARM64" ]]; then
-    export Qt6_DIR="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_arm64"
-    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=OFF -DYUZU_USE_EXTERNAL_SDL2=ON)
+    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=OFF -DYUZU_USE_EXTERNAL_SDL2=ON -DQt6_DIR="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_arm64/lib/cmake/Qt6")
     sed -i '/"fmt",/a \        "sdl2",' vcpkg.json
 fi
 
