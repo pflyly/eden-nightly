@@ -3,6 +3,10 @@
 echo "Making Eden for Windows MSVC ${TARGET}"
 export PATH="$PATH:/c/ProgramData/chocolatey/bin"
 
+if [[ "${ARCH}" == "ARM64" ]]; then
+    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=OFF -DYUZU_USE_EXTERNAL_SDL2=ON)
+fi
+
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
 	rm -rf ./eden || true
@@ -27,7 +31,8 @@ cmake .. -G Ninja \
     -DENABLE_WEB_SERVICE=OFF \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_SYSTEM_PROCESSOR=${ARCH} \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+    "${EXTRA_CMAKE_FLAGS[@]}"
 ninja
 
 # Find windeployqt.exe from external Qt installation path
