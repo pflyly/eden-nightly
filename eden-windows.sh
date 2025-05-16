@@ -3,10 +3,6 @@
 echo "Making Eden for Windows MSVC ${TARGET}"
 export PATH="$PATH:/c/ProgramData/chocolatey/bin"
 
-if [[ "${ARCH}" == "ARM64" ]]; then
-    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=ON -DYUZU_USE_EXTERNAL_SDL2=OFF)
-fi
-
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
 	rm -rf ./eden || true
@@ -15,6 +11,11 @@ fi
 
 cd ./eden
 git submodule update --init --recursive
+
+if [[ "${ARCH}" == "ARM64" ]]; then
+    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=OFF -DYUZU_USE_EXTERNAL_SDL2=ON)
+    sed -i '/"fmt",/a \        "sdl2",' vcpkg.json
+fi
 
 COUNT="$(git rev-list --count HEAD)"
 HASH="$(git rev-parse --short HEAD)"
