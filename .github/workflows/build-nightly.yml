@@ -142,7 +142,17 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.target }}
-       
+          
+      - name: Install Qt (x86_arm64)
+        if: ${{ matrix.target == 'x86_arm64' }}
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2022_arm64'
+          cache: 'true'  
+          
       - name: Install extra tools
         run: choco install cmake 7zip wget -y --no-progress
                 
