@@ -197,7 +197,7 @@ jobs:
                     
   release:
     name: "release"
-    if: ${{ always() }}
+    if: ${{ github.ref_name == 'main' }}
     needs: [appimage, windows, android]
     permissions:
       actions: read
