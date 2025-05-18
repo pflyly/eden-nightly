@@ -58,14 +58,12 @@ jobs:
         env:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"      
         run: |
-            api_url="https://api.github.com/repos/${{ github.repository }}/releases/latest"
-            latest_release_info=$(curl -sSL -H "Authorization: token $GITHUB_TOKEN" "$api_url")
-            last_release_tag=$(echo "$latest_release_info" | jq -r '.tag_name')
-            old_hash="${last_release_tag##*-}"
-            echo "LATEST_TAG=$last_release_tag" >> $GITHUB_ENV
-            echo "OLD_HASH=$old_hash" >> $GITHUB_ENV
-
-          
+            response=$(curl -sSL -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases/latest")
+            tag_name=$(echo "$response" | jq -r '.tag_name')
+            old_hash="${tag_name##*-}"
+            echo "LATEST_TAG=$tag_name" >> "$GITHUB_ENV"
+            echo "OLD_HASH=$old_hash" >> "$GITHUB_ENV"
+       
       - name: Compile Eden ${{ matrix.target }}
         env:
           CCACHE_DIR: /github/home/.ccache
