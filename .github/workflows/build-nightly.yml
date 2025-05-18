@@ -54,6 +54,10 @@ jobs:
           chmod +x ./get-dependencies.sh
           ./get-dependencies.sh
           
+      - name: Install GitHub CLI
+        run: |
+          sudo apt install gh -y
+          
       - name: Get the latest release tag
         run: |
           LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
