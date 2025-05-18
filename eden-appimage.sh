@@ -75,12 +75,13 @@ START_COUNT=$(git rev-list --count "$OLD_HASH")
 i=$((START_COUNT + 1))
 echo "Changelog:" > "$CHANGELOG_FILE"
 
-while read -r full_hash msg; do
+while IFS= read -r line; do
+  full_hash="${line%% *}"
+  msg="${line#* }"
   short_hash="$(git rev-parse --short "$full_hash")"
   echo "- commit ${i} [${short_hash}](${BASE_URL}/${full_hash}) ${msg}" >> "$CHANGELOG_FILE"
   i=$((i + 1))
 done < <(git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD")
-
 
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
