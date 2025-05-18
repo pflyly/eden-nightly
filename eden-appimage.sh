@@ -61,10 +61,16 @@ if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 fi
 
 cd ./eden
+git submodule update --init --recursive -j$(nproc)
+
+#Generate release info and change log
 COUNT="$(git rev-list --count HEAD)"
 HASH="$(git rev-parse --short HEAD)"
+FULLHASH="$(git rev-parse HEAD)"
 DATE="$(date +"%Y%m%d")"
-git submodule update --init --recursive -j$(nproc)
+CHANGELOG="Changelog: commit ${COUNT} [${HASH}](https://git.eden-emu.dev/eden-emu/eden/commit/${FULLHASH})"
+echo "$HASH" > ~/hash
+echo "$CHANGELOG" > ~/changelog
 
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
@@ -96,8 +102,6 @@ cmake .. -GNinja \
     ${CMAKE_CXX_FLAGS:+-DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"} \
     ${CMAKE_C_FLAGS:+-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS"}
 ninja -j$(nproc)
-echo "$HASH" >~/hash
-echo "$(cat ~/hash)"
 ccache -s -v
 
 # Use appimage-builder.sh to generate AppDir
