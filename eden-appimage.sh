@@ -74,11 +74,12 @@ BASE_URL="https://git.eden-emu.dev/eden-emu/eden/commit"
 START_COUNT=$(git rev-list --count "$OLD_HASH")
 i=$((START_COUNT + 1))
 echo "Changelog:" > "$CHANGELOG_FILE"
-git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while read -r full_hash msg; do
+
+while read -r full_hash msg; do
   short_hash="$(git rev-parse --short "$full_hash")"
   echo "- commit ${i} [${short_hash}](${BASE_URL}/${full_hash}) ${msg}" >> "$CHANGELOG_FILE"
   i=$((i + 1))
-done
+done < <(git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD")
 
 
 # workaround for aarch64
