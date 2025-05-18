@@ -38,6 +38,7 @@ pacman -Syu --noconfirm \
 	fmt \
 	gamemode \
 	git \
+ 	github-cli \
 	glslang \
 	glu \
 	hidapi \
