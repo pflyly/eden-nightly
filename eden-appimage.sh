@@ -61,12 +61,6 @@ if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 fi
 
 cd ./eden
-git submodule update --init --recursive
-
-# Generate release info and change log
-# Get the latest release tag from GitHub
-LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
-OLD_HASH="${LATEST_TAG##*-}"
 
 # Get current commit info
 DATE="$(date +"%Y%m%d")"
@@ -74,7 +68,7 @@ COUNT="$(git rev-list --count HEAD)"
 HASH="$(git rev-parse --short HEAD)"
 echo "$HASH" > ~/hash
 
-# Begin to input changelog content
+# Generate release info and changelog
 CHANGELOG_FILE=~/changelog
 BASE_URL="https://git.eden-emu.dev/eden-emu/eden/commit"
 START_COUNT=$(git rev-list --count "$OLD_HASH")
@@ -86,10 +80,13 @@ git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while read -r fu
   i=$((i + 1))
 done
 
+
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
     sed -i 's/Settings::values\.lru_cache_enabled\.GetValue()/true/' src/core/arm/nce/patcher.h
 fi
+
+git submodule update --init --recursive
 
 mkdir build
 cd build
