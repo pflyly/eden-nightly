@@ -27,6 +27,8 @@ jobs:
     continue-on-error: true
     container: ghcr.io/pkgforge-dev/archlinux:latest
     name: "Eden nightly appimage (${{ matrix.target }})"
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4.2.2
         with:
@@ -186,7 +188,7 @@ jobs:
                     
   release:
     name: "release"
-    #if: ${{ always() && github.ref_name == 'main' }}
+    if: ${{ always() }}
     needs: [appimage, windows, android]
     permissions:
       actions: read
