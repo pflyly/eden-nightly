@@ -56,6 +56,7 @@ jobs:
           
       - name: Get the latest release tag
         run: |
+          cd "$GITHUB_WORKSPACE"
           LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
           OLD_HASH="${LATEST_TAG##*-}"
           echo "LATEST_TAG=$LATEST_TAG" >> "$GITHUB_ENV"
