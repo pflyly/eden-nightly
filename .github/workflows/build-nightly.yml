@@ -27,8 +27,6 @@ jobs:
     continue-on-error: true
     container: ghcr.io/pkgforge-dev/archlinux:latest
     name: "Eden nightly appimage (${{ matrix.target }})"
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4.2.2
         with:
@@ -62,6 +60,8 @@ jobs:
           OLD_HASH="${LATEST_TAG##*-}"
           echo "LATEST_TAG=$LATEST_TAG" >> "$GITHUB_ENV"
           echo "OLD_HASH=$OLD_HASH" >> "$GITHUB_ENV"
+        env:
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           
       - name: Compile Eden ${{ matrix.target }}
         env:
