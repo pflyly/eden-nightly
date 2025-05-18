@@ -58,10 +58,10 @@ jobs:
         env:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"      
         run: |
-            response=$(curl -sSL -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases/latest")
-            tag_name=$(echo "$response" | jq -r '.tag_name')
-            old_hash="${tag_name##*-}"
-            echo "LATEST_TAG=$tag_name" >> "$GITHUB_ENV"
+            api_url="https://api.github.com/repos/${{ github.repository }}"
+            latest_release_info=$(curl -H "Authorization: token $GITHUB_TOKEN" "$api_url/releases/latest")
+            last_release_tag=$(echo "$latest_release_info" | jq -r '.tag_name')
+            old_hash="${last_release_tag##*-}"
             echo "OLD_HASH=$old_hash" >> "$GITHUB_ENV"
        
       - name: Compile Eden ${{ matrix.target }}
