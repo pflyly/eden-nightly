@@ -56,6 +56,13 @@ jobs:
           chmod +x ./get-dependencies.sh
           ./get-dependencies.sh
           
+      - name: Get the latest release tag
+        run: |
+          LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+          OLD_HASH="${LATEST_TAG##*-}"
+          echo "LATEST_TAG=$LATEST_TAG" >> "$GITHUB_ENV"
+          echo "OLD_HASH=$OLD_HASH" >> "$GITHUB_ENV"
+          
       - name: Compile Eden ${{ matrix.target }}
         env:
           CCACHE_DIR: /github/home/.ccache
