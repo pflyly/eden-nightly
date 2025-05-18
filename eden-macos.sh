@@ -38,7 +38,7 @@ ninja
 
 # Bundle and code-sign eden.app
 APP=./bin/eden.app
-macdeployqt "$APP" -verbose=3
+macdeployqt "$APP" -verbose=2
 codesign --deep --force --verify --verbose --sign - "$APP"
 
 # Pack for upload
