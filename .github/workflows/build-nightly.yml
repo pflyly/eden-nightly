@@ -59,7 +59,7 @@ jobs:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"      
         run: |
             api_url="https://api.github.com/repos/${{ github.repository }}"
-            latest_release_info=$(curl -H "Authorization: token $GITHUB_TOKEN" "$api_url/releases/latest")
+            latest_release_info=$(curl -H "Authorization: token $GH_TOKEN" "$api_url/releases/latest")
             last_release_tag=$(echo "$latest_release_info" | jq -r '.tag_name')
             echo "${last_release_tag}"
             old_hash="${last_release_tag##*-}"
