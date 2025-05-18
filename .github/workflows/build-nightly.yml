@@ -70,18 +70,19 @@ jobs:
           name: eden-${{ matrix.target}}-appimage
           path: "dist"
 
-      - name: Check hash file
-        run: |
-          cat ~/hash
-          echo "APP_VERSION=$(cat ~/hash)" >> "${GITHUB_ENV}"
-
       - name: Upload hash file
         if: ${{ matrix.target == 'check' }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: hash
           path: ~/hash
-          overwrite: true
+          
+      - name: Upload changelog
+        if: ${{ matrix.target == 'check' }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: changelog
+          path: ~/changelog
           
   android: 
     runs-on: ubuntu-latest
@@ -185,7 +186,7 @@ jobs:
                     
   release:
     name: "release"
-    if: ${{ always() && github.ref_name == 'main' }}
+    #if: ${{ always() && github.ref_name == 'main' }}
     needs: [appimage, windows, android]
     permissions:
       actions: read
@@ -227,16 +228,23 @@ jobs:
         with:
            name: hash
            
-      - name: Read hash and Get date
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: changelog   
+           
+      - name: Generate changelog
         run: |
           export VERSION="$(cat hash)"
           echo "APP_VERSION=${VERSION}" >> "${GITHUB_ENV}"
-          echo "date=$(date +'%Y-%m-%d')" >> "$GITHUB_ENV"
+          echo "BODY<<EOF" >> "${GITHUB_ENV}"
+          cat changelog >> "${GITHUB_ENV}"
+          echo "EOF" >> "${GITHUB_ENV}"
+          echo "date=$(date +'%Y-%m-%d')" >> "$GITHUB_ENV"     
 
       - name: Delete same tag release
         run: |
           gh release delete "${{ env.date }}-${{ env.APP_VERSION }}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
-          sleep 5
+          sleep 10
         env:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         continue-on-error: true
@@ -246,6 +254,7 @@ jobs:
         with:
           name: "Eden Nightly Release: ${{ env.APP_VERSION }}"
           tag_name: "${{ env.date }}-${{ env.APP_VERSION }}"
+          body: "${{ env.BODY }}"
           prerelease: false
           draft: false
           generate_release_notes: false
