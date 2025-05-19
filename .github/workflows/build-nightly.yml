@@ -97,7 +97,7 @@ jobs:
           
   android: 
     runs-on: ubuntu-latest
-    name: "Eden nightly (android)"
+    name: "Eden nightly android"
     steps:
       - uses: actions/checkout@v4.2.2
 
