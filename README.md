@@ -14,6 +14,8 @@
 > This repository makes nightly release of eden for Linux, Linux-arm64, Android, MacOS and Windows.
 >  
 > For Linux, the AppImage is made with several flags of optimization especially targeted for **Steamdeck** & **ROG ALLY X** & **Modern CPUs**(Common Build) & **AArch64**.
+>
+> MacOS release has been disabled for now, bucause has no fraphics output and it's a known issue.
 
 * [**Latest Nightly Release Here**](https://github.com/pflyly/eden-nightly/releases/latest)
 
