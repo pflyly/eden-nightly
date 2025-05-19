@@ -109,7 +109,6 @@ cmake .. -GNinja \
     -DENABLE_QT_TRANSLATION=ON \
     -DUSE_DISCORD_PRESENCE=OFF \
     -DENABLE_WEB_SERVICE=OFF \
-    -DBUNDLE_SPEEX=ON \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_SYSTEM_PROCESSOR="$(uname -m)" \
@@ -122,7 +121,10 @@ cmake .. -GNinja \
     ${CMAKE_CXX_FLAGS:+-DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"} \
     ${CMAKE_C_FLAGS:+-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS"}
 ninja -j$(nproc)
-ccache -s -v
+
+if [ "$1" = 'check' ]; then
+    ccache -s -v
+fi
 
 # Use appimage-builder.sh to generate AppDir
 cd ../..
