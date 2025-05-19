@@ -14,9 +14,9 @@ cd ./eden
 git submodule update --init --recursive
 
 COUNT="$(git rev-list --count HEAD)"
-HASH="$(git rev-parse --short HEAD)"
-DATE="$(date +"%Y%m%d")"
-EXE_NAME="Eden-nightly-${DATE}-${COUNT}-${HASH}-Windows-MSVC-${ARCH}"
+# HASH="$(git rev-parse --short HEAD)"
+# DATE="$(date +"%Y%m%d")"
+EXE_NAME="Eden-${COUNT}-Windows-${ARCH}"
 
 mkdir build
 cd build
