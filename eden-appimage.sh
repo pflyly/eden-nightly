@@ -66,11 +66,13 @@ cd ./eden
 DATE="$(date +"%Y%m%d")"
 COUNT="$(git rev-list --count HEAD)"
 HASH="$(git rev-parse --short HEAD)"
+TAG="$(git describe --tags)"
 echo "$HASH" > ~/hash
 
 # Generate release info and changelog
 CHANGELOG_FILE=~/changelog
-BASE_URL="https://git.eden-emu.dev/eden-emu/eden/commit"
+BASE_COMMIT_URL="https://git.eden-emu.dev/eden-emu/eden/commit"
+BASE_COMPARE_URL="https://git.eden-emu.dev/eden-emu/eden/compare"
 START_COUNT=$(git rev-list --count "$OLD_HASH")
 i=$((START_COUNT + 1))
 echo "Changelog:" > "$CHANGELOG_FILE"
@@ -79,9 +81,12 @@ git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while IFS= read 
   full_hash="${line%% *}"
   msg="${line#* }"
   short_hash="$(git rev-parse --short "$full_hash")"
-  echo "- commit ${i} [${short_hash}](${BASE_URL}/${full_hash}) ${msg}" >> "$CHANGELOG_FILE"
+  echo "- commit ${i} [${short_hash}](${BASE_COMMIT_URL}/${full_hash}) ${msg}" >> "$CHANGELOG_FILE"
   i=$((i + 1))
 done
+
+echo >> "$CHANGELOG_FILE"
+echo "Full Changelog: [${TAG}...master](${BASE_COMPARE_URL}/${TAG}...master)" >> "$CHANGELOG_FILE"
 
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
