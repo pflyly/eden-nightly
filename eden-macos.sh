@@ -17,9 +17,9 @@ cd ./eden
 git submodule update --init --recursive
 
 COUNT="$(git rev-list --count HEAD)"
-HASH="$(git rev-parse --short HEAD)"
-DATE="$(date +"%Y%m%d")"
-APP_NAME="Eden-nightly-${DATE}-${COUNT}-${HASH}-MacOS-${TARGET}"
+# HASH="$(git rev-parse --short HEAD)"
+# DATE="$(date +"%Y%m%d")"
+APP_NAME="Eden-${COUNT}-MacOS-${TARGET}"
 
 mkdir build
 cd build
