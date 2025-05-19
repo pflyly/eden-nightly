@@ -81,13 +81,14 @@ git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while IFS= read 
   full_hash="${line%% *}"
   msg="${line#* }"
   short_hash="$(git rev-parse --short "$full_hash")"
-  echo "- commit ${i} [${short_hash}](${BASE_COMMIT_URL}/${full_hash}) ${msg}" >> "$CHANGELOG_FILE"
+  echo -e "- Merged commit ${i} [${short_hash}](${BASE_COMMIT_URL}/${full_hash})\n  ${msg}" >> "$CHANGELOG_FILE"
   i=$((i + 1))
 done
 
 RELEASE_TAG="$(echo "$TAG" | awk -F'-' '{print $1 "-" $2 "-" $3}')"
 echo >> "$CHANGELOG_FILE"
 echo "Full Changelog: [${RELEASE_TAG}...master](${BASE_COMPARE_URL}/${RELEASE_TAG}...master)" >> "$CHANGELOG_FILE"
+echo "$(cat ~/changelog)"
 
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
