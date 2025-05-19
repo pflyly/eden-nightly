@@ -11,24 +11,24 @@ case "$1" in
     steamdeck)
         echo "Making Eden Optimized Build for Steam Deck"
         CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
-        CMAKE_CXX_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -fno-plt -flto=auto -Wno-error"
-        CMAKE_C_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -fno-plt -flto=auto -Wno-error"
+        CMAKE_CXX_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -flto=auto -Wno-error"
+        CMAKE_C_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -flto=auto -Wno-error"
         YUZU_ENABLE_LTO=ON
         TARGET="Steamdeck"
         ;;
     rog)
         echo "Making Eden Optimized Build for ROG Ally X"
         CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
-        CMAKE_CXX_FLAGS="-march=znver4 -mtune=znver4 -O3 -pipe -fno-plt -flto=auto -Wno-error"
-        CMAKE_C_FLAGS="-march=znver4 -mtune=znver4 -O3 -pipe -fno-plt -flto=auto -Wno-error"
+        CMAKE_CXX_FLAGS="-march=znver4 -mtune=znver4 -O3 -pipe -flto=auto -Wno-error"
+        CMAKE_C_FLAGS="-march=znver4 -mtune=znver4 -O3 -pipe -flto=auto -Wno-error"
         YUZU_ENABLE_LTO=ON
         TARGET="ROG_Ally_X"
         ;;
     common)
         echo "Making Eden Optimized Build for Modern CPUs"
         CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
-        CMAKE_CXX_FLAGS="-march=x86-64-v3 -O3 -pipe -fno-plt -flto=auto -Wno-error"
-        CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -fno-plt -flto=auto -Wno-error"
+        CMAKE_CXX_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
+        CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         YUZU_ENABLE_LTO=ON
         ARCH="${ARCH}_v3"
         TARGET="Common"
