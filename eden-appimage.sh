@@ -85,8 +85,9 @@ git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while IFS= read 
   i=$((i + 1))
 done
 
+RELEASE_TAG="$(echo "$TAG" | awk -F'-' '{print $1 "-" $2 "-" $3}')"
 echo >> "$CHANGELOG_FILE"
-echo "Full Changelog: [${TAG}...master](${BASE_COMPARE_URL}/${TAG}...master)" >> "$CHANGELOG_FILE"
+echo "Full Changelog: [${RELEASE_TAG}...master](${BASE_COMPARE_URL}/${RELEASE_TAG}...master)" >> "$CHANGELOG_FILE"
 
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
