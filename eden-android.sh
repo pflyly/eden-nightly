@@ -10,9 +10,9 @@ cd ./eden
 git submodule update --init --recursive
 
 COUNT="$(git rev-list --count HEAD)"
-HASH="$(git rev-parse --short HEAD)"
-DATE="$(date +"%Y%m%d")"
-APK_NAME="Eden-nightly-${DATE}-${COUNT}-${HASH}-Android-Universal"
+# HASH="$(git rev-parse --short HEAD)"
+# DATE="$(date +"%Y%m%d")"
+APK_NAME="Eden-${COUNT}-Android-Universal"
 
 cd src/android
 chmod +x ./gradlew
