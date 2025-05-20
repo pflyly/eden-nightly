@@ -3,54 +3,47 @@
 # SPDX-FileCopyrightText: 2025 eden Emulator Project
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# This script assumes you're in the source directory
 set -ex
 
 export APPIMAGE_EXTRACT_AND_RUN=1
-export BASE_ARCH="$(uname -m)"
-export ARCH="$BASE_ARCH"
+export ARCH="$(uname -m)"
 
 LIB4BN="https://raw.githubusercontent.com/VHSgunzo/sharun/refs/heads/main/lib4bin"
-URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-$ARCH"
 
-# NOW MAKE APPIMAGE
-mkdir -p ./AppDir
-cd ./AppDir
+BUILD_DIR=$(realpath "$1")
+DEPLOY_DIR="${BUILD_DIR}/deploy"
+APPDIR="${BUILD_DIR}/deploy/AppDir"
+
+mkdir -p "${DEPLOY_DIR}"
+cd "${BUILD_DIR}"
+
+# Install base files to AppDir
+DESTDIR="${APPDIR}" ninja install
+
+cd "${APPDIR}"
 
 cat > eden.desktop << EOL
 [Desktop Entry]
 Type=Application
-Name=Eden
+Name=Eden nightly
 Icon=eden
 StartupWMClass=eden
 Exec=eden
 Categories=Game;Emulator;
 EOL
 
-cp ../dist/eden.svg ./eden.svg
-
-ln -sf ./eden.svg ./.DirIcon
-
-if [ "$DEVEL" = 'true' ]; then
-	sed -i 's|Name=Eden|Name=Eden Nightly|' ./eden.desktop
-	UPINFO="$(echo "$UPINFO" | sed 's|latest|nightly|')"
-fi
-
-LIBDIR="/usr/lib"
-# some distros are weird and use a subdir
-
-if [ ! -f "/usr/lib/libGL.so" ]
-then
-    LIBDIR="/usr/lib/${BASE_ARCH}-linux-gnu"
-fi
+cp -v ./usr/share/icons/hicolor/scalable/apps/org.yuzu_emu.eden.svg ./eden.svg
+ln -sfv ./eden.svg ./.DirIcon
 
 # Bundle all libs
+LIBDIR="/usr/lib"
 wget --retry-connrefused --tries=30 "$LIB4BN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -e -s -k \
-	../build/bin/eden* \
+	/usr/bin/eden \
 	$LIBDIR/lib*GL*.so* \
-    $LIBDIR/libSDL2*.so* \
+ 	$LIBDIR/libSDL2*.so* \
+  	$LIBDIR/libSDL3.so* \
 	$LIBDIR/dri/* \
 	$LIBDIR/vdpau/* \
 	$LIBDIR/libvulkan* \
@@ -72,14 +65,8 @@ xvfb-run -a -- ./lib4bin -p -v -e -s -k \
 	$LIBDIR/spa-0.2/*/* \
 	$LIBDIR/alsa-lib/*
 
-# Prepare sharun
-if [ "$ARCH" = 'aarch64' ]; then
-	# allow the host vulkan to be used for aarch64 given the sed situation
-	echo 'SHARUN_ALLOW_SYS_VKICD=1' > ./.env
-fi
-
 wget https://github.com/VHSgunzo/sharun/releases/download/v0.6.3/sharun-x86_64 -O sharun
 chmod a+x sharun
 
-ln -f ./sharun ./AppRun
+ln -fv ./sharun ./AppRun
 ./sharun -g
