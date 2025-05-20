@@ -17,7 +17,7 @@ This repository provides **nightly releases** of **Eden** for the following plat
 - **Linux (x86_64, aarch64)**
 - **Android**
 - **Windows**
-- **macOS (x86_64, arm64)** *(currently disabled)*
+- **macOS (x86_64, arm64)**
 
 ### Linux Builds
 
@@ -33,8 +33,7 @@ This build, created via **Sharun**, aims for maximum compatibility across most m
 
 ### macOS Build
 
-> ⚠️ The macOS release is currently **disabled** due to a known issue where there is no graphics output.
-
+> ⚠️ The macOS release is now re-enabled.
 
 ---------------------------------------------------------------
 
