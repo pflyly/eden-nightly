@@ -10,12 +10,33 @@
 [![GitHub Downloads](https://img.shields.io/github/downloads/pflyly/eden-nightly/total?logo=github&label=GitHub%20Downloads)](https://github.com/pflyly/eden-nightly/releases/latest)
 [![CI Build Status](https://github.com//pflyly/eden-nightly/actions/workflows/build-nightly.yml/badge.svg)](https://github.com/pflyly/eden-nightly/releases/latest)
 
-> [!IMPORTANT]
-> This repository makes nightly release of eden for Linux, Linux-arm64, Android, MacOS and Windows.
->  
-> For Linux, the AppImage is made with several flags of optimization especially targeted for **Steamdeck** & **ROG ALLY X** & **Modern CPUs**(Common Build) & **AArch64**.
->
-> MacOS release has been disabled for now, bucause has no graphics output and it's a known issue.
+## Release Overview
+
+This repository provides **nightly releases** of **Eden** for the following platforms:
+
+- **Linux (x86_64, aarch64)**
+- **Android**
+- **Windows**
+- **macOS (x86_64, arm64)** *(currently disabled)*
+
+### Linux Builds
+
+The **AppImage** for Linux is built using `linuxdeploy` with several optimization flags targeting:
+
+- **Steam Deck**
+- **ROG Ally X**
+- **AArch64 devices**
+- **Modern CPUs** (via the Common-Light Build)
+
+In addition, there's a **Common-Universal Build** targeting modern CPUs that support the `x86-64-v3` instruction set.  
+This build, created via **Sharun**, aims for maximum compatibility across most modern Linux distributions.
+
+### macOS Build
+
+> ⚠️ The macOS release is currently **disabled** due to a known issue where there is no graphics output.
+
+
+---------------------------------------------------------------
 
 * [**Latest Nightly Release Here**](https://github.com/pflyly/eden-nightly/releases/latest)
 
