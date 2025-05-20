@@ -68,7 +68,5 @@ xvfb-run -a -- ./lib4bin -p -v -e -s -k \
 	$LIBDIR/spa-0.2/*/* \
 	$LIBDIR/alsa-lib/*
 
-# wget https://github.com/VHSgunzo/sharun/releases/download/v0.6.3/sharun-x86_64 -O sharun
-# chmod a+x sharun
 ln -fv ./sharun ./AppRun
 ./sharun -g
