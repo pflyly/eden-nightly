@@ -19,22 +19,8 @@ sudo ninja install
 mkdir -p ./AppDir
 cd ./AppDir
 
-cat > eden.desktop << EOL
-[Desktop Entry]
-Type=Application
-Name=Eden nightly
-Icon=eden
-GenericName=Switch Emulator
-Comment=Nintendo Switch video game console emulator
-TryExec=eden
-Exec=eden %f
-Categories=Game;Emulator;Qt;
-MimeType=application/x-nx-nro;application/x-nx-nso;application/x-nx-nsp;application/x-nx-xci;
-Keywords=Nintendo;Switch;
-StartupWMClass=eden
-EOL
-
-cp -v /usr/share/icons/hicolor/scalable/apps/org.yuzu_emu.eden.svg ./eden.svg
+cp -v /usr/share/applications/eden.desktop ./eden.desktop
+cp -v /usr/share/icons/hicolor/scalable/apps/eden.svg ./eden.svg
 ln -sfv ./eden.svg ./.DirIcon
 
 # Bundle all libs
