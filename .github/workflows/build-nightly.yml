@@ -146,6 +146,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
       
+      - name: Create vcpkg binary cache directory
+        run: mkdir -p "${VCPKG_DEFAULT_BINARY_CACHE}"
+        
       - name: Set up cache for vcpkg
         uses: actions/cache@v4.2.3
         with:
