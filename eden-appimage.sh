@@ -24,8 +24,8 @@ case "$1" in
         YUZU_ENABLE_LTO=ON
         TARGET="ROG_Ally_X"
         ;;
-    common)
-        echo "Making Eden Optimized Build for Modern CPUs"
+    common-light)
+        echo "Making Eden Optimized Build for Modern CPUs via linuxdepoly"
         CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
         CMAKE_CXX_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
@@ -33,6 +33,15 @@ case "$1" in
         ARCH="${ARCH}_v3"
         TARGET="Common"
         ;;
+    common-universal)
+        echo "Making Eden Optimized Build for Modern CPUs via sharun"
+        CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
+        CMAKE_CXX_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
+        CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
+        YUZU_ENABLE_LTO=ON
+        ARCH="${ARCH}_v3"
+        TARGET="Common"
+        ;;	
     aarch64)
         echo "Making Eden Optimized Build for AArch64"
         CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
@@ -128,10 +137,16 @@ if [ "$1" = 'check' ]; then
     ccache -s -v
 fi
 
-# Use linuxdeploy to generate AppDir
 cd ../..
-chmod +x ./linuxdeploy.sh
-./linuxdeploy.sh ./eden/build
+if [ "$1" = 'common-universal' ]; then
+	# Use sharun to generate AppDir
+	chmod +x ./sharun.sh
+	./sharun.sh ./eden/build
+else
+	# Use linuxdeploy to generate AppDir
+	chmod +x ./linuxdeploy.sh
+	./linuxdeploy.sh ./eden/build
+fi
 
 # Prepare uruntime
 wget -q "$URUNTIME" -O ./uruntime
