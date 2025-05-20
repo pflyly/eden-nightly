@@ -31,7 +31,7 @@ case "$1" in
         CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         YUZU_ENABLE_LTO=ON
         ARCH="${ARCH}_v3"
-        TARGET="Common"
+        TARGET="Common-Light"
         ;;
     common-universal)
         echo "Making Eden Optimized Build for Modern CPUs via sharun"
@@ -40,7 +40,7 @@ case "$1" in
         CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         YUZU_ENABLE_LTO=ON
         ARCH="${ARCH}_v3"
-        TARGET="Common"
+        TARGET="Common-Universal"
         ;;	
     aarch64)
         echo "Making Eden Optimized Build for AArch64"
