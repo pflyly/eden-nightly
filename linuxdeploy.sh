@@ -33,7 +33,7 @@ export EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so;libqxcb
 export EXTRA_QT_PLUGINS="svg;wayland-decoration-client;wayland-graphics-integration-client;wayland-shell-integration;waylandcompositor;xcb-gl-integration;platformthemes/libqt6ct.so"
 
 # start to deploy
-./linuxdeploy --appdir ./AppDir --plugin qt --plugin checkrt
+NO_STRIP=1 ./linuxdeploy --appdir ./AppDir --plugin qt --plugin checkrt
 
 # remove libwayland-client because it has platform-dependent exports and breaks other OSes
 rm -fv ./AppDir/usr/lib/libwayland-client.so*
