@@ -142,7 +142,7 @@ jobs:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       CCACHE_COMPILERCHECK: content
       CCACHE_SLOPPINESS: time_macros
-      VCPKG_DEFAULT_BINARY_CACHE: 'C:\Users\runneradmin\AppData\Local\vcpkg\archives'
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
     steps:
       - uses: actions/checkout@v4.2.2
       
