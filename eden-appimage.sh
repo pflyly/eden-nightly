@@ -132,7 +132,6 @@ fi
 cd ../..
 chmod +x ./appimage-builder.sh
 ./appimage-builder.sh eden ./eden/build
-cp /usr/lib/libSDL3.so* ./eden/build/deploy-linux/AppDir/usr/lib/ # Copying libsdl3 to target AppDir
 
 # Prepare uruntime
 wget -q "$URUNTIME" -O ./uruntime
