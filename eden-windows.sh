@@ -29,8 +29,13 @@ cmake .. -G Ninja \
     -DYUZU_CMD=OFF \
     -DYUZU_ROOM_STANDALONE=OFF \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    -DYUZU_USE_PRECOMPILED_HEADERS=OFF \
+    -DUSE_CCACHE=ON  
 ninja
+ccache -s -v
 
 # Find windeployqt.exe from external Qt installation path
 WINDEPLOYQT_EXE=$(find ./externals/qt -type f -name windeployqt.exe | head -n 1)
