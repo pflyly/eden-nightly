@@ -18,8 +18,10 @@ jobs:
             runs-on: ubuntu-latest
           - target: rog
             runs-on: ubuntu-latest
-          - target: common
+          - target: common-light
             runs-on: ubuntu-latest
+          - target: common-universal
+            runs-on: ubuntu-latest            
           - target: check
             runs-on: ubuntu-latest
           - target: aarch64
@@ -217,7 +219,12 @@ jobs:
  
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-common-appimage
+           name: eden-common-light-appimage
+        continue-on-error: true
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-common-universal-appimage
         continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
