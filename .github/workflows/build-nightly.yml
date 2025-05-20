@@ -235,7 +235,7 @@ jobs:
   release:
     name: "release"
     if: ${{ github.ref_name == 'main' }}
-    needs: [appimage, windows, android]
+    needs: [appimage, windows, android, macos]
     permissions:
       actions: read
       security-events: write
@@ -275,6 +275,16 @@ jobs:
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-windows-msvc
+        continue-on-error: true
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-macos-x86_64
+        continue-on-error: true
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-macos-arm64
         continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
