@@ -138,14 +138,35 @@ jobs:
     defaults:
       run:
         shell: bash
+    env:
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_COMPILERCHECK: content
+      CCACHE_SLOPPINESS: time_macros
+      VCPKG_DEFAULT_BINARY_CACHE: 'C:\Users\runneradmin\AppData\Local\vcpkg\archives'
     steps:
       - uses: actions/checkout@v4.2.2
+      
+      - name: Set up cache for vcpkg
+        uses: actions/cache@v4.2.3
+        with:
+          path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+          key: ${{ runner.os }}-msvc-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-msvc-vcpkg-
+            
+      - name: Set up ccache
+        uses: actions/cache@v4.2.3
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-msvc-ccache-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-msvc-ccache-
             
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
        
       - name: Install extra tools
-        run: choco install cmake 7zip wget -y --no-progress
+        run: choco install cmake ccache 7zip wget -y --no-progress
                 
       - name: Install vulkan-sdk
         run: |
@@ -174,16 +195,27 @@ jobs:
           - target: x86_64
             runs-on: macos-13
           - target: arm64
-            runs-on: macos-14
+            runs-on: macos-15
     continue-on-error: true
     env:
       TARGET: ${{ matrix.target }}
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_COMPILERCHECK: content
+      CCACHE_SLOPPINESS: time_macros
     steps:
       - uses: actions/checkout@v4
-
+      
+      - name: Set up ccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-${{ matrix.target }}-ccache-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.target }}-ccache-
+            
       - name: Install dependencies
         run: |
-          brew install --formula autoconf automake boost@1.85 ccache ffmpeg fmt glslang hidapi libtool nlohmann-json qt@6 sdl2 speexdsp zlib zlib cmake Catch2 molten-vk vulkan-loader >/dev/null 2>&1
+          brew install --formula autoconf automake boost@1.85 ccache ffmpeg fmt glslang hidapi libtool nlohmann-json qt@6 sdl2 speexdsp zlib zlib cmake Catch2 molten-vk vulkan-loader
           brew link --force boost@1.85
         
       - name: Compile Eden MacOS (${{ matrix.target }})
