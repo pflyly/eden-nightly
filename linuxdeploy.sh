@@ -6,16 +6,12 @@ export APPIMAGE_EXTRACT_AND_RUN=1
 export ARCH=$(uname -m)
 
 BUILD_DIR=$(realpath "$1")
-DEPLOY_DIR="${BUILD_DIR}/deploy"
-APPDIR="${BUILD_DIR}/deploy/AppDir"
+APPDIR="${BUILD_DIR}/AppDir"
 
-mkdir -p "${DEPLOY_DIR}"
 cd "${BUILD_DIR}"
 
 # Install base files to AppDir
 DESTDIR="${APPDIR}" ninja install
-
-cd "${DEPLOY_DIR}"
 
 # Prepare linuxdepoly
 curl -fsSLo ./linuxdeploy "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${ARCH}.AppImage"
