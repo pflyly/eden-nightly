@@ -128,10 +128,10 @@ if [ "$1" = 'check' ]; then
     ccache -s -v
 fi
 
-# Use appimage-builder.sh to generate AppDir
+# Use linuxdeploy to generate AppDir
 cd ../..
-chmod +x ./appimage-builder.sh
-./appimage-builder.sh eden ./eden/build
+chmod +x ./linuxdeploy.sh
+./linuxdeploy.sh ./eden/build
 
 # Prepare uruntime
 wget -q "$URUNTIME" -O ./uruntime
