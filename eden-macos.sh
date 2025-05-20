@@ -36,8 +36,13 @@ cmake .. -GNinja \
     -DCMAKE_OSX_ARCHITECTURES="$TARGET" \
     -DCMAKE_CXX_FLAGS="-w" \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    -DYUZU_USE_PRECOMPILED_HEADERS=OFF \
+    -DUSE_CCACHE=ON    
 ninja
+ccache -s -v
 
 # Bundle and code-sign eden.app
 APP=./bin/eden.app
