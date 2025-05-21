@@ -1,7 +1,6 @@
 #!/bin/bash -ex
 
 echo "Making Eden for Windows (MSVC)"
-export PATH="$PATH:/c/ProgramData/chocolatey/bin"
 export ARCH="$(uname -m)"
 
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
@@ -14,14 +13,13 @@ cd ./eden
 git submodule update --init --recursive
 
 COUNT="$(git rev-list --count HEAD)"
-# HASH="$(git rev-parse --short HEAD)"
-# DATE="$(date +"%Y%m%d")"
 EXE_NAME="Eden-${COUNT}-Windows-${ARCH}"
 
 mkdir build
 cd build
 cmake .. -G Ninja \
     -DYUZU_TESTS=OFF \
+    -DYUZU_USE_BUNDLED_QT=OFF \
     -DENABLE_QT_TRANSLATION=ON \
     -DYUZU_ENABLE_LTO=ON \
     -DUSE_DISCORD_PRESENCE=OFF \
@@ -29,27 +27,14 @@ cmake .. -G Ninja \
     -DYUZU_CMD=OFF \
     -DYUZU_ROOM_STANDALONE=OFF \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-    -DYUZU_USE_PRECOMPILED_HEADERS=OFF \
-    -DUSE_CCACHE=ON  
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ninja
-ccache -s -v
-
-# Find windeployqt.exe from external Qt installation path
-WINDEPLOYQT_EXE=$(find ./externals/qt -type f -name windeployqt.exe | head -n 1)
-if [ -z "$WINDEPLOYQT_EXE" ]; then
-    echo "Error: windeployqt.exe not found"
-    exit 1
-fi
-echo "Found windeployqt at: $WINDEPLOYQT_EXE"
 
 # Use windeployqt to gather dependencies
 EXE_PATH=./bin/eden.exe
 mkdir deploy
 cp -r bin/* deploy/
-"$WINDEPLOYQT_EXE" --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
+windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 
 # Delete un-needed debug files 
 find deploy -type f -name "*.pdb" -exec rm -fv {} +
