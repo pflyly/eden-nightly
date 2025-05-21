@@ -42,9 +42,10 @@ cmake .. -GNinja \
 ninja
 ccache -s -v
 
-# Bundle and code-sign eden.app
+# Bundle and code-sign eden.app. Excute twice to resolve the qt framework missing error, thanks to @hauntek!
 APP=./bin/eden.app
-macdeployqt "$APP" -verbose=2
+macdeployqt "$APP"
+macdeployqt "$APP" -always-overwrite -verbose=2
 codesign --deep --force --verify --verbose --sign - "$APP"
 
 # Pack for upload
