@@ -135,7 +135,8 @@ jobs:
   windows:
     runs-on: windows-latest
     name: "Eden nightly windows (MSVC)"
-
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
     steps:
       - uses: actions/checkout@v4.2.2
       
