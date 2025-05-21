@@ -135,14 +135,7 @@ jobs:
   windows:
     runs-on: windows-latest
     name: "Eden nightly windows (MSVC)"
-    defaults:
-      run:
-        shell: bash
-    env:
-      CCACHE_DIR: ${{ github.workspace }}/.ccache
-      CCACHE_COMPILERCHECK: content
-      CCACHE_SLOPPINESS: time_macros
-      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
+
     steps:
       - uses: actions/checkout@v4.2.2
       
@@ -156,22 +149,24 @@ jobs:
           key: ${{ runner.os }}-msvc-vcpkg-${{ hashFiles('**/vcpkg.json') }}
           restore-keys: |
             ${{ runner.os }}-msvc-vcpkg-
-            
-      - name: Set up ccache
-        uses: actions/cache@v4.2.3
-        with:
-          path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-msvc-ccache-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-msvc-ccache-
-            
+
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
        
       - name: Install extra tools
-        run: choco install cmake ccache 7zip wget -y --no-progress
-                
+        run: choco install cmake 7zip wget -y --no-progress
+        
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2022_64'
+          cache: 'true'
+          
       - name: Install vulkan-sdk
+        shell: bash
         run: |
            wget -q https://sdk.lunarg.com/sdk/download/1.4.309.0/windows/VulkanSDK-1.4.309.0-Installer.exe -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
@@ -179,6 +174,7 @@ jobs:
            echo "PATH=C:/VulkanSDK/1.4.309.0/Bin:$PATH" >> $GITHUB_ENV          
         
       - name: Compile Eden Windows
+        shell: bash
         run: |
           chmod +x ./eden-windows.sh
           ./eden-windows.sh
