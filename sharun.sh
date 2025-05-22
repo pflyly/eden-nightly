@@ -16,7 +16,7 @@ cd "${BUILD_DIR}"
 # Install eden
 sudo ninja install
 
-LIBDIR="/usr/lib"
+# Set base libs
 COMMON_LIBS=(
     /usr/lib/libXss.so*
     /usr/lib/libgamemode.so*
@@ -35,6 +35,7 @@ COMMON_LIBS=(
     /usr/lib/alsa-lib/*
 )
 
+# Set mesa related libs
 MESA_EXTRA_LIBS=(
     /usr/lib/lib*GL*.so*
     /usr/lib/dri/*
@@ -42,15 +43,20 @@ MESA_EXTRA_LIBS=(
     /usr/lib/libvulkan*
     /usr/lib/libdecor-0.so*
 )
+EMPTY=()
 
-# Create a build function to handle two kinds of appimage
-build_appimage() {
+# Set lib4bin flags
+MESA_FLAGS=(-p -v -e -s -k)
+LIGHT_FLAGS=(-p -v -s -k)
+
+# Create a genarate function to handle two kinds of appdir
+genarate_appdir() {
     local build_type="$1"
     local lib4bin_flags=("${!2}")
     local extra_libs=("${!3}")
     local appdir="./$build_type/AppDir"
 
-    echo "=== Building $build_type AppImage ==="
+    echo "=== Genarating $build_type Appdir ==="
     mkdir -p "$appdir"
     cd "$appdir"
 
@@ -60,7 +66,6 @@ build_appimage() {
 
     wget --retry-connrefused --tries=30 "$LIB4BN" -O ./lib4bin
     chmod +x ./lib4bin
-
     ./lib4bin "${lib4bin_flags[@]}" \
         /usr/bin/eden \
         "${COMMON_LIBS[@]}" \
@@ -72,13 +77,8 @@ build_appimage() {
     cd - > /dev/null
 }
 
-# set lib4bin flags
-MESA_FLAGS=(-p -v -e -s -k)
-LIGHT_FLAGS=(-p -v -s -k)
+# Genarate Appdir with mesa drivers for maximum compatibility and possible latest fixes for some games
+genarate_appdir "mesa" MESA_FLAGS[@] MESA_EXTRA_LIBS[@]
 
-# Build Appimage with mesa drivers for maximum compatibility and possible latest fixes
-build_appimage "mesa" MESA_FLAGS[@] MESA_EXTRA_LIBS[@]
-
-# Build Appimage without mesa drivers for lightweight
-EMPTY=()
-build_appimage "light" LIGHT_FLAGS[@] EMPTY[@]
+# Genarate Appdir without mesa drivers for lightweight
+genarate_appdir "light" LIGHT_FLAGS[@] EMPTY[@]
