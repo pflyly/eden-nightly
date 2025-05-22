@@ -149,7 +149,9 @@ echo "Generating AppImage without mesa"
 ./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B32 \
 --header uruntime -i ./eden/build/light/AppDir -o Eden-"${COUNT}"-"${TARGET}"-light-"$ARCH".AppImage
 
-echo "Generating zsync file..."
-zsyncmake *.AppImage -u *.AppImage
+for appimage in *.AppImage; do
+  echo "Generating zsync file for $appimage"
+  zsyncmake -v "$appimage" -u "$appimage"
+done
 
 echo "All Done!"
