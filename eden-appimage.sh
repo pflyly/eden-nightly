@@ -69,6 +69,7 @@ cd ./eden
 
 if ! git submodule update --init --recursive; then
     echo "Submodule update failed! Deleting and re-cloning the entire repo."
+    sleep 30
     
     # Re-cloning the entire repo in case of submodule corruption
     cd ..
