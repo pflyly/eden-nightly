@@ -1,17 +1,33 @@
 #!/bin/bash -ex
 
-if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
-	echo "Using mirror instead..."
-	rm -rf ./eden || true
-	git clone 'https://github.com/pflyly/eden-mirror.git' ./eden
+# We really need to hanlde this due to frequent failure of submodule update
+clone_eden() {
+	# Clone Eden, fallback to mirror if upstream repo fails to clone
+	if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
+		echo "Using mirror instead..."
+		rm -rf ./eden || true
+		git clone 'https://github.com/pflyly/eden-mirror.git' ./eden
+	fi
+}
+
+rm -rf ./eden || true
+clone_eden
+cd ./eden
+
+if ! git submodule update --init --recursive; then
+    echo "Submodule update failed! Deleting and re-cloning the entire repo."
+    
+    # Re-cloning the entire repo in case of submodule corruption
+    cd ..
+    rm -rf ./eden || true
+    clone_eden
+    cd ./eden
+
+    # Now try submodules again — if this fails again, let it explode!!!
+    git submodule update --init --recursive
 fi
 
-cd ./eden
-git submodule update --init --recursive
-
 COUNT="$(git rev-list --count HEAD)"
-# HASH="$(git rev-parse --short HEAD)"
-# DATE="$(date +"%Y%m%d")"
 APK_NAME="Eden-${COUNT}-Android-Universal"
 
 cd src/android
