@@ -21,19 +21,16 @@ This repository provides **nightly releases** of **Eden** for the following plat
 
 ### Linux Builds
 
-The **AppImage** for Linux is built using `linuxdeploy` with several optimization flags targeting:
+The **AppImage** for Linux is built using **Sharun** with several optimization flags targeting:
 
 - **Steam Deck**
 - **ROG Ally X**
 - **AArch64 devices**
 - **Modern CPUs** (via the Common-Light Build)
 
-In addition, there's a **Common-Universal Build** targeting modern CPUs that support the `x86-64-v3` instruction set.  
-This build, created via **Sharun**, aims for maximum compatibility across most modern Linux distributions.
-
-### macOS Build
-
-> ⚠️ The macOS release is now re-enabled.
+Each AppImage is bundled with **Mesa drivers** to ensure maximum compatibility and may provide the latest fixes for certain games.  
+A **Light version** is also available, which excludes Mesa drivers for a more lightweight build and relies on the system’s native graphics drivers.
+These builds should work on any linux distro.
 
 ---------------------------------------------------------------
 
