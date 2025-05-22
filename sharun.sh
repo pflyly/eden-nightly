@@ -18,29 +18,29 @@ sudo ninja install
 
 LIBDIR="/usr/lib"
 COMMON_LIBS=(
-    "$LIBDIR/libXss.so*"
-    "$LIBDIR/libgamemode.so*"
-    "$LIBDIR/qt6/plugins/audio/*"
-    "$LIBDIR/qt6/plugins/bearer/*"
-    "$LIBDIR/qt6/plugins/imageformats/*"
-    "$LIBDIR/qt6/plugins/iconengines/*"
-    "$LIBDIR/qt6/plugins/platforms/*"
-    "$LIBDIR/qt6/plugins/platformthemes/*"
-    "$LIBDIR/qt6/plugins/platforminputcontexts/*"
-    "$LIBDIR/qt6/plugins/styles/*"
-    "$LIBDIR/qt6/plugins/xcbglintegrations/*"
-    "$LIBDIR/qt6/plugins/wayland-*/*"
-    "$LIBDIR/pulseaudio/*"
-    "$LIBDIR/spa-0.2/*/*"
-    "$LIBDIR/alsa-lib/*"
+    /usr/lib/libXss.so*
+    /usr/lib/libgamemode.so*
+    /usr/lib/qt6/plugins/audio/*
+    /usr/lib/qt6/plugins/bearer/*
+    /usr/lib/qt6/plugins/imageformats/*
+    /usr/lib/qt6/plugins/iconengines/*
+    /usr/lib/qt6/plugins/platforms/*
+    /usr/lib/qt6/plugins/platformthemes/*
+    /usr/lib/qt6/plugins/platforminputcontexts/*
+    /usr/lib/qt6/plugins/styles/*
+    /usr/lib/qt6/plugins/xcbglintegrations/*
+    /usr/lib/qt6/plugins/wayland-*/*
+    /usr/lib/pulseaudio/*
+    /usr/lib/spa-0.2/*/*
+    /usr/lib/alsa-lib/*
 )
 
 MESA_EXTRA_LIBS=(
-    "$LIBDIR/lib*GL*.so*"
-    "$LIBDIR/dri/*"
-    "$LIBDIR/vdpau/*"
-    "$LIBDIR/libvulkan*"
-    "$LIBDIR/libdecor-0.so*"
+    /usr/lib/lib*GL*.so*
+    /usr/lib/dri/*
+    /usr/lib/vdpau/*
+    /usr/lib/libvulkan*
+    /usr/lib/libdecor-0.so*
 )
 
 # Create a build function to handle two kinds of appimage
