@@ -38,6 +38,7 @@ COMMON_LIBS=(
 # Set mesa related libs
 MESA_EXTRA_LIBS=(
     /usr/lib/lib*GL*.so*
+    /usr/lib/libSDL*
     /usr/lib/dri/*
     /usr/lib/vdpau/*
     /usr/lib/libvulkan*
