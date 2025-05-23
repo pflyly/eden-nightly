@@ -18,6 +18,7 @@ sudo ninja install
 
 # Set base libs
 COMMON_LIBS=(
+    /usr/lib/libSDL*
     /usr/lib/libXss.so*
     /usr/lib/libgamemode.so*
     /usr/lib/qt6/plugins/audio/*
@@ -38,7 +39,6 @@ COMMON_LIBS=(
 # Set mesa related libs
 MESA_EXTRA_LIBS=(
     /usr/lib/lib*GL*.so*
-    /usr/lib/libSDL*
     /usr/lib/dri/*
     /usr/lib/vdpau/*
     /usr/lib/libvulkan*
