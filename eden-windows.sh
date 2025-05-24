@@ -40,6 +40,7 @@ if [[ "${ARCH}" == "ARM64" ]]; then
     # Add SDL2 & ffmpeg to vcpkg.json
     sed -i '/"fmt",/a \        "sdl2",' vcpkg.json
     sed -i '/"sdl2",/a \        "ffmpeg",' vcpkg.json
+    sed -i '/file(READ.*requirements.txt.*)/c\file(GLOB FFmpeg_REQUIRED_DLLS\n    "${FFmpeg_PATH}/bin/*.dll"\n)' CMakeModules/CopyYuzuFFmpegDeps.cmake
 
     # Adapt upstream WIP changes
     sed -i '
