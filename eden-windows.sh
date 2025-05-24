@@ -30,6 +30,11 @@ if ! git submodule update --init --recursive; then
     git submodule update --init --recursive
 fi
 
+if [[ "${ARCH}" == "ARM64" ]]; then
+    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=OFF -DYUZU_USE_EXTERNAL_SDL2=ON)
+    sed -i '/"fmt",/a \        "sdl2",' vcpkg.json
+fi
+
 COUNT="$(git rev-list --count HEAD)"
 EXE_NAME="Eden-${COUNT}-Windows-${ARCH}"
 
@@ -47,7 +52,9 @@ cmake .. -G Ninja \
     -DYUZU_CMD=OFF \
     -DYUZU_ROOM_STANDALONE=OFF \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DCMAKE_SYSTEM_PROCESSOR=${ARCH} \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+    "${EXTRA_CMAKE_FLAGS[@]}"
 ninja
 
 # Use windeployqt to gather dependencies
