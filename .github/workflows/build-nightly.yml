@@ -134,7 +134,7 @@ jobs:
           
   windows:
     runs-on: windows-latest
-    name: "Windows MSVC (${{ matrix.target }})"
+    name: "Windows (${{ matrix.target }})"
     continue-on-error: true
     strategy:
       matrix:
@@ -190,7 +190,7 @@ jobs:
            echo "VULKAN_SDK=C:/VulkanSDK/1.4.313.0" >> $GITHUB_ENV
            echo "PATH=C:/VulkanSDK/1.4.313.0/Bin:$PATH" >> $GITHUB_ENV          
         
-      - name: Compile Eden Windows
+      - name: Compile Eden Windows ${{ matrix.target }}
         shell: bash
         run: |
           chmod +x ./eden-windows.sh
@@ -281,7 +281,12 @@ jobs:
  
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-windows-msvc
+           name: eden-windows-msvc-x86_64
+        continue-on-error: true
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-windows-msvc-x86_arm64
         continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
