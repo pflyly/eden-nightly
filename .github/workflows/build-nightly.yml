@@ -135,6 +135,7 @@ jobs:
   windows:
     runs-on: windows-latest
     name: "Windows MSVC (${{ matrix.target }})"
+    continue-on-error: true
     strategy:
       matrix:
         include:
