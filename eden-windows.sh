@@ -33,8 +33,8 @@ if [[ "${ARCH}" == "ARM64" ]]; then
     export EXTRA_CMAKE_FLAGS=(
         -DYUZU_USE_BUNDLED_SDL2=OFF
         -DYUZU_USE_EXTERNAL_SDL2=ON
-	-DYUZU_USE_BUNDLED_QT=OFF
  	-DYUZU_USE_BUNDLED_FFMPEG=OFF
+  	-DFFmpeg_PATH="D:/a/eden-nightly/eden-nightly/eden/externals/vcpkg/packages/ffmpeg_arm64-windows"
     )
 
     # Add SDL2 & ffmpeg to vcpkg.json
@@ -59,11 +59,6 @@ if [[ "${ARCH}" == "ARM64" ]]; then
 
     sed -i 's/list(APPEND CMAKE_PREFIX_PATH "${Qt6_DIR}")/list(PREPEND CMAKE_PREFIX_PATH "${Qt6_DIR}")/' CMakeLists.txt
     sed -i '/#include <boost\/asio.hpp>/a #include <boost/version.hpp>' src/core/debugger/debugger.cpp
-
-else
-    export EXTRA_CMAKE_FLAGS=(
-        -DYUZU_USE_BUNDLED_QT=OFF
-    )
 fi
 
 COUNT="$(git rev-list --count HEAD)"
@@ -73,6 +68,7 @@ mkdir build
 cd build
 cmake .. -G Ninja \
     -DYUZU_TESTS=OFF \
+    -DYUZU_USE_BUNDLED_QT=OFF \
     -DYUZU_USE_QT_MULTIMEDIA=OFF \
     -DYUZU_USE_QT_WEB_ENGINE=OFF \
     -DENABLE_QT_TRANSLATION=ON \
