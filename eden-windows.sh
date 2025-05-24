@@ -89,7 +89,12 @@ ninja
 EXE_PATH=./bin/eden.exe
 mkdir deploy
 cp -r bin/* deploy/
-cp -v externals/vcpkg/packages/ffmpeg_arm64-windows/bin/*.dll deploy/
+
+# Manually copy ffmpeg dlls
+if [[ "${ARCH}" == "ARM64" ]]; then
+	cp -v externals/vcpkg/packages/ffmpeg_arm64-windows/bin/*.dll deploy/
+fi
+
 windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 
 # Delete un-needed debug files 
