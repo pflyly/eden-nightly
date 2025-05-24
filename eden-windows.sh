@@ -33,6 +33,7 @@ if [[ "${ARCH}" == "ARM64" ]]; then
     export EXTRA_CMAKE_FLAGS=(
         -DYUZU_USE_BUNDLED_SDL2=OFF
         -DYUZU_USE_EXTERNAL_SDL2=ON
+	-DQt6_DIR="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_arm64"
     )
 
     # Add SDL2 to vcpkg.json
