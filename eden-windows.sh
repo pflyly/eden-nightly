@@ -92,7 +92,8 @@ cp -r bin/* deploy/
 
 # Manually copy ffmpeg dlls
 if [[ "${ARCH}" == "ARM64" ]]; then
-	cp -v externals/vcpkg/packages/ffmpeg_arm64-windows/bin/*.dll deploy/
+	ls -1 ../externals/vcpkg/packages/ffmpeg_arm64-windows/bin/
+	cp -v ../externals/vcpkg/packages/ffmpeg_arm64-windows/bin/*.dll deploy/
 fi
 
 windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
