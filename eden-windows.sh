@@ -30,8 +30,37 @@ if ! git submodule update --init --recursive; then
 fi
 
 if [[ "${ARCH}" == "ARM64" ]]; then
-    export EXTRA_CMAKE_FLAGS=(-DYUZU_USE_BUNDLED_SDL2=OFF -DYUZU_USE_EXTERNAL_SDL2=ON)
+    export EXTRA_CMAKE_FLAGS=(
+        -DYUZU_USE_BUNDLED_SDL2=OFF
+        -DYUZU_USE_EXTERNAL_SDL2=ON
+    )
+
+    # Add SDL2 to vcpkg.json
     sed -i '/"fmt",/a \        "sdl2",' vcpkg.json
+
+    # Adapt upstream WIP changes
+    sed -i '
+/#elif defined(ARCHITECTURE_x86_64)/{
+    N
+    /asm volatile("mfence\\n\\tlfence\\n\\t" : : : "memory");/a\
+#elif defined(_MSC_VER) && defined(ARCHITECTURE_arm64)\
+                    _Memory_barrier();
+}
+/#elif defined(ARCHITECTURE_x86_64)/{
+    N
+    /asm volatile("mfence\\n\\t" : : : "memory");/a\
+#elif defined(_MSC_VER) && defined(ARCHITECTURE_arm64)\
+                    _Memory_barrier();
+}
+' src/core/arm/dynarmic/dynarmic_cp15.cpp
+
+    # Include boost/version.hpp after boost/asio.hpp
+    sed -i '/#include <boost\/asio.hpp>/a #include <boost/version.hpp>' src/core/debugger/debugger.cpp
+
+else
+    export EXTRA_CMAKE_FLAGS=(
+        -DYUZU_USE_BUNDLED_QT=OFF
+    )
 fi
 
 COUNT="$(git rev-list --count HEAD)"
@@ -41,7 +70,6 @@ mkdir build
 cd build
 cmake .. -G Ninja \
     -DYUZU_TESTS=OFF \
-    -DYUZU_USE_BUNDLED_QT=OFF \
     -DYUZU_USE_QT_MULTIMEDIA=OFF \
     -DYUZU_USE_QT_WEB_ENGINE=OFF \
     -DENABLE_QT_TRANSLATION=ON \
