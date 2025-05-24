@@ -40,7 +40,8 @@ if [[ "${ARCH}" == "ARM64" ]]; then
     # Add SDL2 & ffmpeg to vcpkg.json
     sed -i '/"fmt",/a \        "sdl2",' vcpkg.json
     sed -i '/"sdl2",/a \        "ffmpeg",' vcpkg.json
-    sed -i '/file(READ.*requirements.txt.*)/c\file(GLOB FFmpeg_REQUIRED_DLLS\n    "${FFmpeg_PATH}/bin/*.dll"\n)' CMakeModules/CopyYuzuFFmpegDeps.cmake
+    sed -i 's/^\s*include(CopyYuzuFFmpegDeps)/# &/' src/yuzu/CMakeLists.txt
+    sed -i 's/^\s*copy_yuzu_FFmpeg_deps(yuzu)/# &/' src/yuzu/CMakeLists.txt
 
     # Adapt upstream WIP changes
     sed -i '
@@ -88,6 +89,7 @@ ninja
 EXE_PATH=./bin/eden.exe
 mkdir deploy
 cp -r bin/* deploy/
+cp -v externals/vcpkg/packages/ffmpeg_arm64-windows/bin/*.dll deploy/
 windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 
 # Delete un-needed debug files 
