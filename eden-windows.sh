@@ -34,8 +34,6 @@ if [[ "${ARCH}" == "ARM64" ]]; then
         -DYUZU_USE_BUNDLED_SDL2=OFF
         -DYUZU_USE_EXTERNAL_SDL2=ON
 	-DQt6_DIR="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_arm64/lib/cmake/Qt6"
- 	-DQT_HOST_PATH="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_64"
-        -DQT_TARGET_PATH="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_arm64"
     )
 
     # Add SDL2 to vcpkg.json
@@ -57,7 +55,7 @@ if [[ "${ARCH}" == "ARM64" ]]; then
 }
 ' src/core/arm/dynarmic/dynarmic_cp15.cpp
 
-    # Include boost/version.hpp after boost/asio.hpp
+    sed -i 's/list(APPEND CMAKE_PREFIX_PATH "${Qt6_DIR}")/list(PREPEND CMAKE_PREFIX_PATH "${Qt6_DIR}")/' CMakeLists.txt
     sed -i '/#include <boost\/asio.hpp>/a #include <boost/version.hpp>' src/core/debugger/debugger.cpp
 
 else
