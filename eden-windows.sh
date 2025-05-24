@@ -35,6 +35,7 @@ if [[ "${ARCH}" == "ARM64" ]]; then
         -DYUZU_USE_EXTERNAL_SDL2=ON
 	-DQt6_DIR="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_arm64/lib/cmake/Qt6"
  	-DQT_HOST_PATH="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_64"
+        -DQT_TARGET_PATH="D:/a/eden-nightly/eden-nightly/eden/build/externals/qt/6.8.3/msvc2022_arm64"
     )
 
     # Add SDL2 to vcpkg.json
