@@ -134,8 +134,17 @@ jobs:
           
   windows:
     runs-on: windows-latest
-    name: "Windows MSVC"
+    name: "Windows MSVC (${{ matrix.target }})"
+    strategy:
+      matrix:
+        include:
+           - target: x86_64
+             arch: x86_64
+           - target: x86_arm64
+             arch: ARM64
     env:
+      TARGET: ${{ matrix.target }}
+      ARCH: ${{ matrix.arch }}        
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
     steps:
       - uses: actions/checkout@v4.2.2
@@ -147,13 +156,15 @@ jobs:
         uses: actions/cache@v4.2.3
         with:
           path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-          key: ${{ runner.os }}-msvc-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          key: ${{ runner.os }}-${{ matrix.target }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
           restore-keys: |
-            ${{ runner.os }}-msvc-vcpkg-
+            ${{ runner.os }}-${{ matrix.target }}-vcpkg-
 
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
-       
+        with:
+          arch: ${{ matrix.target }} 
+          
       - name: Install extra tools
         run: choco install cmake 7zip wget -y --no-progress
         
@@ -170,10 +181,11 @@ jobs:
       - name: Install vulkan-sdk
         shell: bash
         run: |
-           wget -q https://sdk.lunarg.com/sdk/download/1.4.309.0/windows/VulkanSDK-1.4.309.0-Installer.exe -O D:/a/_temp/vulkan.exe
+           VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
+           wget -q "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
-           echo "VULKAN_SDK=C:/VulkanSDK/1.4.309.0" >> $GITHUB_ENV
-           echo "PATH=C:/VulkanSDK/1.4.309.0/Bin:$PATH" >> $GITHUB_ENV          
+           echo "VULKAN_SDK=C:/VulkanSDK/1.4.313.0" >> $GITHUB_ENV
+           echo "PATH=C:/VulkanSDK/1.4.313.0/Bin:$PATH" >> $GITHUB_ENV          
         
       - name: Compile Eden Windows
         shell: bash
@@ -184,7 +196,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: eden-windows-msvc
+          name: eden-windows-msvc-${{ matrix.target }}
           path: eden/build/artifacts/
           
   macos:
