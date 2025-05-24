@@ -1,7 +1,6 @@
 #!/bin/bash -ex
 
 echo "Making Eden for Windows (MSVC)"
-export ARCH="$(uname -m)"
 
 # We really need to hanlde this due to frequent failure of submodule update
 clone_eden() {
