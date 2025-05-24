@@ -141,8 +141,10 @@ jobs:
         include:
            - target: x86_64
              arch: x86_64
+             qt_arch: win64_msvc2022_64
            - target: x86_arm64
              arch: ARM64
+             qt_arch: win64_msvc2022_arm64_cross_compiled
     env:
       TARGET: ${{ matrix.target }}
       ARCH: ${{ matrix.arch }}        
@@ -171,12 +173,11 @@ jobs:
         
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
-        if: ${{ matrix.target == 'x86_64' }}
         with:
           version: '6.8.3'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_msvc2022_64'
+          arch: ${{ matrix.qt_arch }}
           modules: qtmultimedia qtwebengine
           cache: 'true'
           
