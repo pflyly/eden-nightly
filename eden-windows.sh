@@ -34,10 +34,12 @@ if [[ "${ARCH}" == "ARM64" ]]; then
         -DYUZU_USE_BUNDLED_SDL2=OFF
         -DYUZU_USE_EXTERNAL_SDL2=ON
 	-DYUZU_USE_BUNDLED_QT=OFF
+ 	-DYUZU_USE_BUNDLED_FFMPEG=OFF
     )
 
-    # Add SDL2 to vcpkg.json
+    # Add SDL2 & ffmpeg to vcpkg.json
     sed -i '/"fmt",/a \        "sdl2",' vcpkg.json
+    sed -i '/"sdl2",/a \        "ffmpeg",' vcpkg.json
 
     # Adapt upstream WIP changes
     sed -i '
