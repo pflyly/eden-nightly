@@ -178,7 +178,7 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: ${{ matrix.qt_arch }}
-          modules: qtmultimedia qtwebengine
+          # modules: qtmultimedia qtwebengine
           cache: 'true'
           
       - name: Install vulkan-sdk
