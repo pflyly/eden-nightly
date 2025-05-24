@@ -90,13 +90,13 @@ EXE_PATH=./bin/eden.exe
 mkdir deploy
 cp -r bin/* deploy/
 
-# Manually copy ffmpeg dlls
 if [[ "${ARCH}" == "ARM64" ]]; then
-	ls -1 ../externals/vcpkg/packages/ffmpeg_arm64-windows/bin/
+	# Make sure we have all the ffmpeg dlls packed
 	cp -v ../externals/vcpkg/packages/ffmpeg_arm64-windows/bin/*.dll deploy/
+ 	"D:/a/eden-nightly/Qt/6.8.3/msvc2022_64/bin/windeployqt.exe" --qtpaths "D:/a/eden-nightly/Qt/6.8.3/msvc2022_arm64/bin/qtpaths6.bat" --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
+else
+	windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 fi
-
-windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 
 # Delete un-needed debug files 
 find deploy -type f -name "*.pdb" -exec rm -fv {} +
