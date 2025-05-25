@@ -71,8 +71,6 @@ cd build
 cmake .. -G Ninja \
     -DYUZU_TESTS=OFF \
     -DYUZU_USE_BUNDLED_QT=OFF \
-    -DYUZU_USE_QT_MULTIMEDIA=OFF \
-    -DYUZU_USE_QT_WEB_ENGINE=OFF \
     -DENABLE_QT_TRANSLATION=ON \
     -DYUZU_ENABLE_LTO=ON \
     -DUSE_DISCORD_PRESENCE=OFF \
@@ -91,8 +89,10 @@ mkdir deploy
 cp -r bin/* deploy/
 
 if [[ "${ARCH}" == "ARM64" ]]; then
-	# Make sure we have all the ffmpeg dlls packed
+	# Ensure all required FFmpeg DLLs are included (may be partially bundled already — see CI logs)
 	cp -v ../externals/vcpkg/packages/ffmpeg_arm64-windows/bin/*.dll deploy/
+ 
+ 	# Use ARM64-specific Qt paths with windeployqt
  	"D:/a/eden-nightly/Qt/6.8.3/msvc2022_64/bin/windeployqt.exe" --qtpaths "D:/a/eden-nightly/Qt/6.8.3/msvc2022_arm64/bin/qtpaths6.bat" --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 else
 	windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
