@@ -170,8 +170,8 @@ echo "Generating AppImage with mesa"
 ./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B32 \
 --header uruntime -i ./eden/build/mesa/AppDir -o Eden-"${COUNT}"-"${TARGET}"-"$ARCH".AppImage
 
-echo "Generating AppImage without mesa"
-./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B32 \
+# echo "Generating AppImage without mesa"
+#./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B32 \
 --header uruntime -i ./eden/build/light/AppDir -o Eden-"${COUNT}"-"${TARGET}"-light-"$ARCH".AppImage
 
 for appimage in *.AppImage; do
