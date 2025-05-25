@@ -259,20 +259,20 @@ jobs:
            name: eden-steamdeck-appimage
         continue-on-error: true
  
-      - uses: actions/download-artifact@v4.3.0
-        with:
-           name: eden-rog-appimage
-        continue-on-error: true
+#      - uses: actions/download-artifact@v4.3.0
+#        with:
+#           name: eden-rog-appimage
+#        continue-on-error: true
  
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-common-appimage
         continue-on-error: true
         
-      - uses: actions/download-artifact@v4.3.0
-        with:
-           name: eden-aarch64-appimage
-        continue-on-error: true
+#      - uses: actions/download-artifact@v4.3.0
+#        with:
+#           name: eden-aarch64-appimage
+#        continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
