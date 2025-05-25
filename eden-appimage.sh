@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -ex
 
@@ -63,23 +63,26 @@ clone_eden() {
 	fi
 }
 
-rm -rf ./eden || true
-clone_eden
-cd ./eden
+for try in {1..5}; do
+	echo "=== Try #$try ==="
+	rm -rf ./eden
+	clone_eden
+	cd ./eden
 
-if ! git submodule update --init --recursive; then
-    echo "Submodule update failed! Deleting and re-cloning the entire repo."
-    sleep 30
-    
-    # Re-cloning the entire repo in case of submodule corruption
-    cd ..
-    rm -rf ./eden || true
-    clone_eden
-    cd ./eden
+	if git submodule update --init --recursive; then
+		echo "Submodule update succeeded! You are saved!"
+		break
+	fi
 
-    # Now try submodules again — if this fails again, let it explode!!!
-    git submodule update --init --recursive
-fi
+	echo "Submodule update failed! Your CI will reboot in 30 second..."
+	cd ..
+	sleep 30
+
+	if [ "$try" -eq 5 ]; then
+		echo "Submodule update failed after 5 retries! Your CI will explode right away! Run!!!"
+		exit 1
+	fi
+done
 
 # Get current commit info
 DATE="$(date +"%Y%m%d")"
@@ -94,7 +97,11 @@ BASE_COMMIT_URL="https://git.eden-emu.dev/eden-emu/eden/commit"
 BASE_COMPARE_URL="https://git.eden-emu.dev/eden-emu/eden/compare"
 START_COUNT=$(git rev-list --count "$OLD_HASH")
 i=$((START_COUNT + 1))
-echo "Changelog:" > "$CHANGELOG_FILE"
+
+# Add Release overviw link and instruction
+echo -e "See the **[Release Overview](https://github.com/pflyly/eden-nightly?tab=readme-ov-file#release-overview)** section for detailed differences between builds.\n Make sure to **expand the release assets list** to view all available builds." > "$CHANGELOG_FILE"
+echo >> "$CHANGELOG_FILE"
+echo "Changelog:" >> "$CHANGELOG_FILE"
 
 git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while IFS= read -r line || [ -n "$line" ]; do
   full_hash="${line%% *}"
@@ -105,6 +112,7 @@ git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while IFS= read 
   i=$((i + 1))
 done
 
+# Add full changelog from lastest tag release
 RELEASE_TAG="$(echo "$TAG" | awk -F'-' '{print $1 "-" $2 "-" $3}')"
 echo "Full Changelog: [\`${RELEASE_TAG}...master\`](${BASE_COMPARE_URL}/${RELEASE_TAG}...master)" >> "$CHANGELOG_FILE"
 
