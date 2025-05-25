@@ -19,13 +19,17 @@ This repository provides **nightly releases** of **Eden** for the following plat
 - **Windows** (`x86_64`, `arm64`) — **ARM64 is experimental**
 - **macOS** (`x86_64`, `arm64`)
 
+> [!IMPORTANT]
+> This repository is intended to provide an easy way to try out the latest features from recent commits — that's what **Nightly** builds are for!
+> These builds are **experimental and may be unstable**, so use them at your own discretion.
+
 ### Linux Builds
 
 The **AppImage** for Linux is built using **Sharun** with several optimization flags targeting:
 
 - **Steam Deck** — optimized for `znver2` (Zen 2)
-- **ROG Ally X** — optimized for `znver4` (Zen 4)
-- **AArch64 devices** — compatible with `aarch64` architecture
+- **ROG Ally X** — optimized for `znver4` (Zen 4)*(canceled)*
+- **AArch64 devices** — compatible with `aarch64` architecture *(canceled)*
 - **Modern x86_64 CPUs** — optimized for `x86-64-v3` (via the Common Build)
 
 Each AppImage is bundled with **Mesa drivers** to ensure maximum compatibility and may provide the latest fixes for certain games.  
