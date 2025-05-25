@@ -14,10 +14,10 @@
 
 This repository provides **nightly releases** of **Eden** for the following platforms:
 
-- **Linux (x86_64, aarch64)**
+- **Linux** (`x86_64`, `aarch64`)
 - **Android**
-- **Windows**
-- **macOS (x86_64, arm64)**
+- **Windows** (`x86_64`, `arm64`) — **ARM64 is experimental**
+- **macOS** (`x86_64`, `arm64`)
 
 ### Linux Builds
 
@@ -32,6 +32,9 @@ Each AppImage is bundled with **Mesa drivers** to ensure maximum compatibility a
 A **Light version** is also available, which excludes Mesa drivers for a more lightweight build and relies on the system’s native graphics drivers.
 These builds should work on any linux distro.
 
+### Windows Builds
+
+> ⚠️ The Windows **ARM64** build is based on **work-in-progress (WIP)** changes and is intended for testing purposes only.  If you encounter any issues, please report them in the official Discord channel.
 ---------------------------------------------------------------
 
 * [**Latest Nightly Release Here**](https://github.com/pflyly/eden-nightly/releases/latest)
