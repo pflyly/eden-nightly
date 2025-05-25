@@ -17,22 +17,26 @@ clone_eden() {
 	fi
 }
 
-rm -rf ./eden || true
-clone_eden
-cd ./eden
+for try in {1..5}; do
+	echo "=== Try #$try ==="
+	rm -rf ./eden
+	clone_eden
+	cd ./eden
 
-if ! git submodule update --init --recursive; then
-    echo "Submodule update failed! Deleting and re-cloning the entire repo."
-    
-    # Re-cloning the entire repo in case of submodule corruption
-    cd ..
-    rm -rf ./eden || true
-    clone_eden
-    cd ./eden
+	if git submodule update --init --recursive; then
+		echo "Submodule update succeeded! You are saved!"
+		break
+	fi
 
-    # Now try submodules again — if this fails again, let it explode!!!
-    git submodule update --init --recursive
-fi
+	echo "Submodule update failed! Your CI will reboot in 30 second..."
+	cd ..
+	sleep 30
+
+	if [ "$try" -eq 5 ]; then
+		echo "Submodule update failed after 5 retries! Your CI will explode right away! Run!!!"
+		exit 1
+	fi
+done
 
 COUNT="$(git rev-list --count HEAD)"
 APP_NAME="Eden-${COUNT}-MacOS-${TARGET}"
