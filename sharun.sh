@@ -82,4 +82,4 @@ genarate_appdir() {
 genarate_appdir "mesa" MESA_FLAGS[@] MESA_EXTRA_LIBS[@]
 
 # Genarate Appdir without mesa drivers for lightweight
-genarate_appdir "light" LIGHT_FLAGS[@] EMPTY[@]
+# genarate_appdir "light" LIGHT_FLAGS[@] EMPTY[@]
