@@ -89,6 +89,7 @@ cmake .. -G Ninja \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     "${EXTRA_CMAKE_FLAGS[@]}"
 ninja
+ccache -s -v
 
 # Use windeployqt to gather dependencies
 EXE_PATH=./bin/eden.exe
