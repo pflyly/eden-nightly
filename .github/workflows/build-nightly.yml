@@ -149,7 +149,7 @@ jobs:
       TARGET: ${{ matrix.target }}
       ARCH: ${{ matrix.arch }}        
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
-      VCPKG_BINARY_SOURCES: clear;files,${{ env.VCPKG_DEFAULT_BINARY_CACHE }},readwrite
+      VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/vcpkg,readwrite
     steps:
       - uses: actions/checkout@v4.2.2
       
