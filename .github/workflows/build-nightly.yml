@@ -164,11 +164,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.target }}-vcpkg-
             
-      - name: set up sccache
+      - name: set up ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: sccache-${{ matrix.target }}
-          variant: sccache
+          key: windows-ccache-${{ matrix.target }}
           
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
