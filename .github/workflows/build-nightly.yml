@@ -149,6 +149,7 @@ jobs:
       TARGET: ${{ matrix.target }}
       ARCH: ${{ matrix.arch }}        
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
+      VCPKG_BINARY_SOURCES: clear;files,${{ env.VCPKG_DEFAULT_BINARY_CACHE }},readwrite
     steps:
       - uses: actions/checkout@v4.2.2
       
@@ -159,10 +160,16 @@ jobs:
         uses: actions/cache@v4.2.3
         with:
           path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-          key: ${{ runner.os }}-${{ matrix.target }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          key: ${{ runner.os }}-${{ matrix.target }}-vcpkg-${{ hashFiles('./vcpkg.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.target }}-vcpkg-
-
+            
+      - name: set up sccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: sccache-${{ matrix.target }}
+          variant: sccache
+          
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
