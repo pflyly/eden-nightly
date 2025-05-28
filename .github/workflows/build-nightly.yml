@@ -150,6 +150,9 @@ jobs:
       ARCH: ${{ matrix.arch }}        
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
       VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/vcpkg,readwrite
+    defaults:
+      run:
+        shell: bash      
     steps:
       - uses: actions/checkout@v4.2.2
       
@@ -188,7 +191,7 @@ jobs:
           cache: 'true'
           
       - name: Install vulkan-sdk
-        shell: bash
+        #shell: bash
         run: |
            VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
            wget -q "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
@@ -197,7 +200,7 @@ jobs:
            echo "PATH=C:/VulkanSDK/1.4.313.0/Bin:$PATH" >> $GITHUB_ENV          
         
       - name: Compile Eden Windows ${{ matrix.target }}
-        shell: bash
+        #shell: bash
         run: |
           chmod +x ./eden-windows.sh
           ./eden-windows.sh
