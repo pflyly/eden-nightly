@@ -165,7 +165,7 @@ jobs:
             ${{ runner.os }}-${{ matrix.target }}-vcpkg-
             
       - name: set up ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.18
         with:
           key: windows-ccache-${{ matrix.target }}
           
