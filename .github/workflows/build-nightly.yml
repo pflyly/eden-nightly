@@ -106,7 +106,13 @@ jobs:
           
   android: 
     runs-on: ubuntu-latest
-    name: "Android"
+    strategy:
+      matrix:
+        target: [Replaces, Coexists]
+    continue-on-error: true
+    name: "Android (${{ matrix.target }})"
+    env:
+      TARGET: ${{ matrix.target }}    
     steps:
       - uses: actions/checkout@v4.2.2
 
@@ -136,7 +142,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4.6.2
         with:
-         name: eden-android-universal
+         name: eden-android-${{ matrix.target }}
          path: eden/src/android/artifacts/
           
   windows:
@@ -283,9 +289,14 @@ jobs:
         
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-android-universal
+           name: eden-android-Replaces
         continue-on-error: true
- 
+        
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-android-Coexists
+        continue-on-error: true
+        
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-windows-msvc-x86_64
