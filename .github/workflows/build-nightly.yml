@@ -90,6 +90,13 @@ jobs:
           name: hash
           path: ~/hash
           
+      - name: Upload count file
+        if: ${{ matrix.target == 'check' }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: count
+          path: ~/count
+          
       - name: Upload changelog
         if: ${{ matrix.target == 'check' }}
         uses: actions/upload-artifact@v4.6.2
@@ -305,12 +312,18 @@ jobs:
            
       - uses: actions/download-artifact@v4.3.0
         with:
+           name: count
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
            name: changelog   
            
       - name: Generate changelog
         run: |
           export VERSION="$(cat hash)"
           echo "APP_VERSION=${VERSION}" >> "${GITHUB_ENV}"
+          export COUNT="$(cat count)"
+          echo "APP_COUNT=${VERSION}" >> "${GITHUB_ENV}"
           echo "BODY<<EOF" >> "${GITHUB_ENV}"
           cat changelog >> "${GITHUB_ENV}"
           echo "EOF" >> "${GITHUB_ENV}"
@@ -327,7 +340,7 @@ jobs:
       - name: Build Releaser
         uses: softprops/action-gh-release@v2
         with:
-          name: "Eden Nightly Release: ${{ env.APP_VERSION }}"
+          name: "Eden Nightly Release: ${{ env.APP_COUNT }}"
           tag_name: "${{ env.date }}-${{ env.APP_VERSION }}"
           body: "${{ env.BODY }}"
           prerelease: false
