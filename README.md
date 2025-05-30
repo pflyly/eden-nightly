@@ -37,6 +37,18 @@ Each AppImage is bundled with **Mesa drivers** to ensure maximum compatibility a
 
 These builds should work on any linux distro.
 
+### Android Builds
+
+Eden for Android is available in two versions:
+
+- `Replace` Build
+  
+Shares the same application ID as the official Eden release. Installing this version will replace the official app on your device. It appears as "**eden**" on the home screen.
+
+- `Coexist` Build
+  
+Uses a nightly application ID, allowing it to coexist with the official Eden release. It appears as "**eden nightly**" on the home screen, and "**Eden Nightly**" on the main screen of eden.
+
 ### Windows Builds
 
 > ⚠️ The Windows **ARM64** build is based on **work-in-progress (WIP)** changes and is intended for testing purposes only.  If you encounter any issues, please report them in the official Discord channel.
