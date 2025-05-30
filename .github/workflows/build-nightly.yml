@@ -323,7 +323,7 @@ jobs:
           export VERSION="$(cat hash)"
           echo "APP_VERSION=${VERSION}" >> "${GITHUB_ENV}"
           export COUNT="$(cat count)"
-          echo "APP_COUNT=${VERSION}" >> "${GITHUB_ENV}"
+          echo "APP_COUNT=${COUNT}" >> "${GITHUB_ENV}"
           echo "BODY<<EOF" >> "${GITHUB_ENV}"
           cat changelog >> "${GITHUB_ENV}"
           echo "EOF" >> "${GITHUB_ENV}"
