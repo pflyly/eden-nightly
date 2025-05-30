@@ -90,6 +90,7 @@ COUNT="$(git rev-list --count HEAD)"
 HASH="$(git rev-parse --short HEAD)"
 TAG="$(git describe --tags)"
 echo "$HASH" > ~/hash
+echo "$COUNT" > ~/count
 
 # Start to generate release info and changelog
 CHANGELOG_FILE=~/changelog
