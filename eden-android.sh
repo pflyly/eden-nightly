@@ -31,8 +31,13 @@ for try in {1..5}; do
 	fi
 done
 
+if [ "$TARGET" = "Coexists" ]; then
+    sed -i 's/applicationId = "dev\.eden\.eden_emulator"/applicationId = "dev.eden.eden_emulator.nightly"/' src/android/app/build.gradle.kts
+    sed -i 's|<string name="app_name"[^>]*>.*</string>|<string name="app_name" translatable="false">Eden Nightly</string>|' src/android/app/src/main/res/values/strings.xml
+fi
+
 COUNT="$(git rev-list --count HEAD)"
-APK_NAME="Eden-${COUNT}-Android-Universal"
+APK_NAME="Eden-${COUNT}-Android-${TARGET}"
 
 cd src/android
 chmod +x ./gradlew
