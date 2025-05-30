@@ -108,7 +108,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target: [Replaces, Coexists]
+        target: [Replace, Coexist]
     continue-on-error: true
     name: "Android (${{ matrix.target }})"
     env:
@@ -289,12 +289,12 @@ jobs:
         
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-android-Replaces
+           name: eden-android-Replace
         continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-android-Coexists
+           name: eden-android-Coexist
         continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
