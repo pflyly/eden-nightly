@@ -40,6 +40,7 @@ fi
 
 # This may broke android?
 sed -i '/"sdl2"/d' vcpkg.json
+sed -i 's/"zlib",/"zlib"/' vcpkg.json
 
 COUNT="$(git rev-list --count HEAD)"
 APK_NAME="Eden-${COUNT}-Android-${TARGET}"
