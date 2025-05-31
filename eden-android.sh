@@ -31,14 +31,6 @@ for try in {1..5}; do
 	fi
 done
 
-# Workaround for missing submodule: lib/linkernsbypass (prevents CMake add_subdirectory error)
-EDEN_DIR=$(pwd)
-cd externals/libadrenotools
-mkdir -p lib
-cd lib
-git clone 'https://github.com/bylaws/liblinkernsbypass.git' linkernsbypass
-cd "$EDEN_DIR"
-
 if [ "$TARGET" = "Coexist" ]; then
     # Change the App name and application ID to make it coexist with official build
     sed -i 's/applicationId = "dev\.eden\.eden_emulator"/applicationId = "dev.eden.eden_emulator.nightly"/' src/android/app/build.gradle.kts
