@@ -61,10 +61,10 @@ This repo is ported from my [citron-nightly repo](https://github.com/pflyly/Citr
 
 It is possible that this appimage may fail to work with appimagelauncher, I recommend these alternatives instead: 
 
-* [AM](https://github.com/ivan-hc/AM) `am -i eden` or `appman -i eden`
+* [AM](https://github.com/ivan-hc/AM) `am -i eden-nightly` or `appman -i eden-nightly`
 
-* [dbin](https://github.com/xplshn/dbin) `dbin install eden.appimage`
+* [dbin](https://github.com/xplshn/dbin) `dbin install eden-nightly.appimage`
 
-* [soar](https://github.com/pkgforge/soar) `soar install eden`
+* [soar](https://github.com/pkgforge/soar) `soar install eden-nightly`
 
 This appimage works without fuse2 as it can use fuse3 instead, it can also work without fuse at all thanks to the [uruntime](https://github.com/VHSgunzo/uruntime)
