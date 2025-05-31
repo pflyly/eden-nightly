@@ -129,7 +129,7 @@ fi
 mkdir build
 cd build
 cmake .. -GNinja \
-    -DYUZU_USE_BUNDLED_VCPKG=ON \
+    -DYUZU_USE_BUNDLED_VCPKG=OFF \
     -DYUZU_USE_BUNDLED_QT=OFF \
     -DUSE_SYSTEM_QT=ON \
     -DYUZU_TESTS=OFF \
