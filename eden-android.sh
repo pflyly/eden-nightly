@@ -38,6 +38,9 @@ if [ "$TARGET" = "Coexist" ]; then
     sed -i 's|<string name="app_name"[^>]*>.*</string>|<string name="app_name" translatable="false">Eden Nightly</string>|' src/android/app/src/main/res/values/strings.xml
 fi
 
+# This may broke android?
+sed -i '' '/"sdl2"/d' vcpkg.json
+
 COUNT="$(git rev-list --count HEAD)"
 APK_NAME="Eden-${COUNT}-Android-${TARGET}"
 
