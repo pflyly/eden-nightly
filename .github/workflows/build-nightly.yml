@@ -16,8 +16,6 @@ jobs:
         include:
           - target: steamdeck
             runs-on: ubuntu-latest
-#          - target: rog
-#            runs-on: ubuntu-latest
           - target: common
             runs-on: ubuntu-latest            
           - target: check
@@ -35,15 +33,6 @@ jobs:
       - uses: actions/checkout@v4.2.2
         with:
           persist-credentials: false
-          
-#  Disabled due to broken vcpkg. But actually not needed anyway.        
-#      - name: Set up cache for vcpkg
-#        uses: actions/cache@v4.2.3
-#        with:
-#          path: /github/home/.cache/vcpkg/archives
-#          key: ${{ runner.os }}-${{ matrix.target }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
-#          restore-keys: |
-#            ${{ runner.os }}-${{ matrix.target }}-vcpkg-
 
       - name: Set up ccache for check
         if: ${{ matrix.target == 'check' }}
@@ -272,11 +261,6 @@ jobs:
         with:
            name: eden-steamdeck-appimage
         continue-on-error: true
- 
-#      - uses: actions/download-artifact@v4.3.0
-#        with:
-#           name: eden-rog-appimage
-#        continue-on-error: true
  
       - uses: actions/download-artifact@v4.3.0
         with:
