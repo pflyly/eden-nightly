@@ -8,6 +8,7 @@ if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 fi
 
 cd ./eden
+git submodule update --init --recursive
 
 if [ "$TARGET" = "Coexist" ]; then
     # Change the App name and application ID to make it coexist with official build
