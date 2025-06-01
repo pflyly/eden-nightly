@@ -10,6 +10,7 @@ if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 fi
 
 cd ./eden
+git submodule update --init --recursive
 
 if [[ "${ARCH}" == "ARM64" ]]; then
     export EXTRA_CMAKE_FLAGS=(
