@@ -53,6 +53,7 @@ if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 fi
 
 cd ./eden
+git submodule update --init --recursive
 
 # Get current commit info
 DATE="$(date +"%Y%m%d")"
