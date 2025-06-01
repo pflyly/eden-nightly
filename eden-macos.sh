@@ -15,6 +15,7 @@ if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 fi
 
 cd ./eden
+git submodule update --init --recursive
 
 COUNT="$(git rev-list --count HEAD)"
 APP_NAME="Eden-${COUNT}-MacOS-${TARGET}"
