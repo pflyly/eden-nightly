@@ -16,14 +16,6 @@ case "$1" in
         YUZU_ENABLE_LTO=ON
         TARGET="Steamdeck"
         ;;
-    rog)
-        echo "Making Eden Optimized Build for ROG Ally X"
-        CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
-        CMAKE_CXX_FLAGS="-march=znver4 -mtune=znver4 -O3 -pipe -flto=auto -Wno-error"
-        CMAKE_C_FLAGS="-march=znver4 -mtune=znver4 -O3 -pipe -flto=auto -Wno-error"
-        YUZU_ENABLE_LTO=ON
-        TARGET="ROG_Ally_X"
-        ;;
     common)
         echo "Making Eden Optimized Build for Modern CPUs via linuxdepoly"
         CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
@@ -53,36 +45,14 @@ esac
 
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|latest|*$ARCH.AppImage.zsync"
 
-# We really need to hanlde this due to frequent failure of submodule update
-clone_eden() {
-	# Clone Eden, fallback to mirror if upstream repo fails to clone
-	if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
-		echo "Using mirror instead..."
-		rm -rf ./eden || true
-		git clone 'https://github.com/pflyly/eden-mirror.git' ./eden
-	fi
-}
+# Clone Eden, fallback to mirror if upstream repo fails to clone
+if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
+	echo "Using mirror instead..."
+	rm -rf ./eden || true
+	git clone 'https://github.com/pflyly/eden-mirror.git' ./eden
+fi
 
-for try in {1..5}; do
-	echo "=== Try #$try ==="
-	rm -rf ./eden
-	clone_eden
-	cd ./eden
-
-	if git submodule update --init --recursive; then
-		echo "Submodule update succeeded! You are saved!"
-		break
-	fi
-
-	echo "Submodule update failed! Your CI will reboot in 30 second..."
-	cd ..
-	sleep 30
-
-	if [ "$try" -eq 5 ]; then
-		echo "Submodule update failed after 5 retries! Your CI will explode right away! Run!!!"
-		exit 1
-	fi
-done
+cd ./eden
 
 # Get current commit info
 DATE="$(date +"%Y%m%d")"
@@ -99,11 +69,12 @@ BASE_COMPARE_URL="https://git.eden-emu.dev/eden-emu/eden/compare"
 START_COUNT=$(git rev-list --count "$OLD_HASH")
 i=$((START_COUNT + 1))
 
-# Add Release overviw link and instruction
+# Add Release overview link and instruction
 echo "This repository is intended to provide an easy way to try out the latest features from recent commits — that's what **Nightly** builds are for!" > "$CHANGELOG_FILE"
 echo "These builds are **experimental and may be unstable**, so use them at your own discretion." >> "$CHANGELOG_FILE"
 echo >> "$CHANGELOG_FILE"
-echo "See the **[Release Overview](https://github.com/pflyly/eden-nightly?tab=readme-ov-file#release-overview)** section for detailed differences between builds." >> "$CHANGELOG_FILE"
+echo "> [!IMPORTANT]" >> "$CHANGELOG_FILE"
+echo "> See the **[Release Overview](https://github.com/pflyly/eden-nightly?tab=readme-ov-file#release-overview)** section for detailed differences between builds." >> "$CHANGELOG_FILE"
 echo >> "$CHANGELOG_FILE"
 
 # Add changelog section
@@ -150,7 +121,7 @@ cmake .. -GNinja \
     ${CMAKE_EXE_LINKER_FLAGS:+-DCMAKE_EXE_LINKER_FLAGS="$CMAKE_EXE_LINKER_FLAGS"} \
     ${CMAKE_CXX_FLAGS:+-DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"} \
     ${CMAKE_C_FLAGS:+-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS"}
-ninja -j$(nproc)
+ninja
 
 if [ "$1" = 'check' ]; then
     ccache -s -v
