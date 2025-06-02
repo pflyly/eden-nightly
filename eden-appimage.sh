@@ -35,17 +35,7 @@ case "$1" in
         CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         YUZU_ENABLE_LTO=ON
-	YUZU_USE_PRECOMPILED_HEADERS=OFF
-	CCACHE="ccache"
         TARGET="Linux"
-        ;;
-    check)
-        echo "Checking build"
-        YUZU_USE_PRECOMPILED_HEADERS=OFF
-        CMAKE_CXX_FLAGS="-w"
-        CMAKE_C_FLAGS="-w"
-        TARGET="Check"
-        CCACHE="ccache"
         ;;
 esac
 
@@ -129,7 +119,9 @@ cmake .. -GNinja \
     ${CMAKE_CXX_FLAGS:+-DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"} \
     ${CMAKE_C_FLAGS:+-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS"}
 ninja
-ccache -s -v
+if [ "$1" != 'aarch64' ]; then
+    ccache -s -v
+fi
 
 cd ../..
 # Use sharun to generate AppDir
