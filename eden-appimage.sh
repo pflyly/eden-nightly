@@ -14,6 +14,7 @@ case "$1" in
         CMAKE_CXX_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -flto=auto -Wno-error"
         CMAKE_C_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -flto=auto -Wno-error"
         YUZU_ENABLE_LTO=ON
+	YUZU_USE_PRECOMPILED_HEADERS=OFF
 	CCACHE="ccache"
         TARGET="Steamdeck"
         ;;
@@ -23,6 +24,7 @@ case "$1" in
         CMAKE_CXX_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         YUZU_ENABLE_LTO=ON
+	YUZU_USE_PRECOMPILED_HEADERS=OFF
 	CCACHE="ccache"
         ARCH="${ARCH}_v3"
         TARGET="Common"
@@ -33,6 +35,7 @@ case "$1" in
         CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         YUZU_ENABLE_LTO=ON
+	YUZU_USE_PRECOMPILED_HEADERS=OFF
 	CCACHE="ccache"
         TARGET="Linux"
         ;;
