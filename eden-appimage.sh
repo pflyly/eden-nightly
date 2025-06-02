@@ -10,20 +10,16 @@ URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime
 case "$1" in
     steamdeck)
         echo "Making Eden Optimized Build for Steam Deck"
-        CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
         CMAKE_CXX_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -flto=auto -Wno-error"
         CMAKE_C_FLAGS="-march=znver2 -mtune=znver2 -O3 -pipe -flto=auto -Wno-error"
-        YUZU_ENABLE_LTO=ON
 	YUZU_USE_PRECOMPILED_HEADERS=OFF
 	CCACHE="ccache"
         TARGET="Steamdeck"
         ;;
     common)
         echo "Making Eden Optimized Build for Modern CPUs via linuxdepoly"
-        CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
         CMAKE_CXX_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
-        YUZU_ENABLE_LTO=ON
 	YUZU_USE_PRECOMPILED_HEADERS=OFF
 	CCACHE="ccache"
         ARCH="${ARCH}_v3"
@@ -31,10 +27,8 @@ case "$1" in
         ;;	
     aarch64)
         echo "Making Eden Optimized Build for AArch64"
-        CMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed"
         CMAKE_CXX_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
         CMAKE_C_FLAGS="-march=armv8-a -mtune=generic -O3 -pipe -flto=auto -w"
-        YUZU_ENABLE_LTO=ON
         TARGET="Linux"
         ;;
 esac
@@ -103,6 +97,7 @@ cmake .. -GNinja \
     -DYUZU_TESTS=OFF \
     -DYUZU_CHECK_SUBMODULES=OFF \
     -DYUZU_USE_FASTER_LD=ON \
+    -DYUZU_ENABLE_LTO=ON \
     -DENABLE_QT_TRANSLATION=ON \
     -DUSE_DISCORD_PRESENCE=OFF \
     -DYUZU_CMD=OFF \
@@ -111,11 +106,10 @@ cmake .. -GNinja \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_SYSTEM_PROCESSOR="$(uname -m)" \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed" \
     -DCMAKE_C_COMPILER_LAUNCHER="${CCACHE:-}" \
     -DCMAKE_CXX_COMPILER_LAUNCHER="${CCACHE:-}" \
-    ${YUZU_ENABLE_LTO:+-DYUZU_ENABLE_LTO=$YUZU_ENABLE_LTO} \
     ${YUZU_USE_PRECOMPILED_HEADERS:+-DYUZU_USE_PRECOMPILED_HEADERS=$YUZU_USE_PRECOMPILED_HEADERS} \
-    ${CMAKE_EXE_LINKER_FLAGS:+-DCMAKE_EXE_LINKER_FLAGS="$CMAKE_EXE_LINKER_FLAGS"} \
     ${CMAKE_CXX_FLAGS:+-DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"} \
     ${CMAKE_C_FLAGS:+-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS"}
 ninja
