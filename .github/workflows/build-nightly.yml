@@ -34,7 +34,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up ccache for check
+      - name: Set up ccache for ${{ matrix.target }}
         # if: ${{ matrix.target == 'check' }}
         uses: actions/cache@v4.2.3
         with:
