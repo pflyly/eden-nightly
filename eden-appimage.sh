@@ -129,10 +129,7 @@ cmake .. -GNinja \
     ${CMAKE_CXX_FLAGS:+-DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"} \
     ${CMAKE_C_FLAGS:+-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS"}
 ninja
-
-if [ "$1" = 'check' ]; then
-    ccache -s -v
-fi
+ccache -s -v
 
 cd ../..
 # Use sharun to generate AppDir
