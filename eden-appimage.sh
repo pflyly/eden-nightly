@@ -17,7 +17,7 @@ case "$1" in
         TARGET="Steamdeck"
         ;;
     common)
-        echo "Making Eden Optimized Build for Modern CPUs via linuxdepoly"
+        echo "Making Eden Optimized Build for Modern CPUs"
         CMAKE_CXX_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
         CMAKE_C_FLAGS="-march=x86-64-v3 -O3 -pipe -flto=auto -Wno-error"
 	YUZU_USE_PRECOMPILED_HEADERS=OFF
@@ -113,6 +113,7 @@ cmake .. -GNinja \
     ${CMAKE_CXX_FLAGS:+-DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS"} \
     ${CMAKE_C_FLAGS:+-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS"}
 ninja
+
 if [ "$1" != 'aarch64' ]; then
     ccache -s -v
 fi
