@@ -35,13 +35,13 @@ jobs:
           persist-credentials: false
 
       - name: Set up ccache for check
-        if: ${{ matrix.target == 'check' }}
+        # if: ${{ matrix.target == 'check' }}
         uses: actions/cache@v4.2.3
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-ccache-check-${{ github.sha }}
+          key: ${{ runner.os }}-ccache-${{ matrix.target }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-ccache-check-
+            ${{ runner.os }}-ccache-${{ matrix.target }}-
             
       - name: Install dependencies
         run: |
