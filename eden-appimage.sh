@@ -44,6 +44,7 @@ fi
 
 cd ./eden
 git submodule update --init --recursive
+COUNT="$(git rev-list --count HEAD)"
 
 # Generate release info and changelog
 chmod +x ../changelog.sh
