@@ -27,6 +27,7 @@ echo "> See the **[Release Overview](https://github.com/pflyly/eden-nightly?tab=
 echo >> "$CHANGELOG_FILE"
 
 # Add changelog section
+echo "## Changelog:" >> "$CHANGELOG_FILE"
 git log --reverse --pretty=format:"%H %s" "${OLD_HASH}..HEAD" | while IFS= read -r line || [ -n "$line" ]; do
   full_hash="${line%% *}"
   msg="${line#* }"
