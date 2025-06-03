@@ -14,7 +14,7 @@ echo "$COUNT" > ~/count
 CHANGELOG_FILE=~/changelog
 BASE_COMMIT_URL="https://git.eden-emu.dev/eden-emu/eden/commit"
 BASE_COMPARE_URL="https://git.eden-emu.dev/eden-emu/eden/compare"
-BASE_DOWNLOAD_URL="https://github.com/pflyly/eden-nightly/releases/download" # /2025-05-31-fb3988a78/Eden-27334-Android-Coexist.apk
+BASE_DOWNLOAD_URL="https://github.com/pflyly/eden-nightly/releases/download"
 START_COUNT=$(git rev-list --count "$OLD_HASH")
 i=$((START_COUNT + 1))
 
@@ -42,10 +42,10 @@ echo "Full Changelog: [\`${RELEASE_TAG}...master\`](${BASE_COMPARE_URL}/${RELEAS
 echo >> "$CHANGELOG_FILE"
 
 # Generate release table
-echo "# Nightly Release:" >> "$CHANGELOG_FILE"
-echo "| Platform | Target Arch |" >> "$CHANGELOG_FILE"
+echo "## Nightly Release: ${COUNT}" >> "$CHANGELOG_FILE"
+echo "| Platform | Target / Arch |" >> "$CHANGELOG_FILE"
 echo "|--|--|" >> "$CHANGELOG_FILE"
-echo "| Linux | [Common x86_64_v3](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Common-x86_64_v3.AppImage)<br>---<br>[Steamdeck x86_64](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Steamdeck-x86_64.AppImage)<br>---<br>[aarch64(Experimental)](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Linux-aarch64.AppImage) |" >> "$CHANGELOG_FILE"
-echo "| Android | [Coexist](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Android-Coexist.apk)<br>---<br>[Replace](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Android-Replace.apk) |" >> "$CHANGELOG_FILE"
-echo "| Windows | [ARM64(Experimental)](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Windows-ARM64.7z)<br>---<br>[x86_64](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Windows-x86_64.7z) |" >> "$CHANGELOG_FILE"
-echo "| MacOS(Experimental) | [arm64](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-MacOS-arm64.7z)<br>---<br>[x86_64](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-MacOS-x86_64.7z) |" >> "$CHANGELOG_FILE"
+echo "| Linux | [\`Common x86_64_v3\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Common-x86_64_v3.AppImage)<br><br>[\`Steamdeck x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Steamdeck-x86_64.AppImage)<br><br>[\`aarch64 (Experimental)\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Linux-aarch64.AppImage) |" >> "$CHANGELOG_FILE"
+echo "| Android | [\`Coexist\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Android-Coexist.apk)<br><br>[\`Replace\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Android-Replace.apk) |" >> "$CHANGELOG_FILE"
+echo "| Windows | [\`ARM64 (Experimental)\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Windows-ARM64.7z)<br><br>[\`x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Windows-x86_64.7z) |" >> "$CHANGELOG_FILE"
+echo "| MacOS (Experimental) | [\`arm64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-MacOS-arm64.7z)<br><br>[\`x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-MacOS-x86_64.7z) |" >> "$CHANGELOG_FILE"
