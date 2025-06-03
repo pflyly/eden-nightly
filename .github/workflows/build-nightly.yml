@@ -70,12 +70,12 @@ jobs:
           name: eden-${{ matrix.target}}-appimage
           path: "dist"
 
-      - name: Upload hash file
+      - name: Upload tag file
         if: ${{ matrix.target == 'steamdeck' }}
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: hash
-          path: ~/hash
+          name: tag
+          path: ~/tag
           
       - name: Upload count file
         if: ${{ matrix.target == 'steamdeck' }}
@@ -84,7 +84,7 @@ jobs:
           name: count
           path: ~/count
           
-      - name: Upload changelog
+      - name: Upload changelog file
         if: ${{ matrix.target == 'steamdeck' }}
         uses: actions/upload-artifact@v4.6.2
         with:
@@ -301,7 +301,7 @@ jobs:
         
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: hash
+           name: tag
            
       - uses: actions/download-artifact@v4.3.0
         with:
@@ -313,18 +313,15 @@ jobs:
            
       - name: Generate changelog
         run: |
-          export VERSION="$(cat hash)"
-          echo "APP_VERSION=${VERSION}" >> "${GITHUB_ENV}"
-          export COUNT="$(cat count)"
-          echo "APP_COUNT=${COUNT}" >> "${GITHUB_ENV}"
+          echo "TAG=$(cat tag)" >> "${GITHUB_ENV}"
+          echo "COUNT=$(cat count)" >> "${GITHUB_ENV}"
           echo "BODY<<EOF" >> "${GITHUB_ENV}"
           cat changelog >> "${GITHUB_ENV}"
-          echo "EOF" >> "${GITHUB_ENV}"
-          echo "date=$(date +'%Y-%m-%d')" >> "$GITHUB_ENV"     
+          echo "EOF" >> "${GITHUB_ENV}"    
 
       - name: Delete same tag release
         run: |
-          gh release delete "${{ env.date }}-${{ env.APP_VERSION }}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
+          gh release delete "${{ env.TAG }}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
           sleep 10
         env:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -333,8 +330,8 @@ jobs:
       - name: Build Releaser
         uses: softprops/action-gh-release@v2
         with:
-          name: "Eden Nightly Release: ${{ env.APP_COUNT }}"
-          tag_name: "${{ env.date }}-${{ env.APP_VERSION }}"
+          name: "Eden Nightly Release: ${{ env.COUNT }}"
+          tag_name: "${{ env.TAG }}"
           body: "${{ env.BODY }}"
           prerelease: false
           draft: false
