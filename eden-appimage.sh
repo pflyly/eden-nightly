@@ -46,8 +46,8 @@ cd ./eden
 git submodule update --init --recursive
 
 # Generate release info and changelog
-chmod +x ./changelog.sh
-./changelog.sh
+chmod +x ../changelog.sh
+../changelog.sh
 
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
