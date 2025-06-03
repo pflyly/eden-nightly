@@ -246,7 +246,7 @@ jobs:
                     
   release:
     name: "release"
-    # if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.ref_name == 'main' }}
     needs: [appimage, windows, android, macos]
     permissions:
       actions: read
