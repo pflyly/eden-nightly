@@ -71,25 +71,25 @@ jobs:
           path: "dist"
 
       - name: Upload tag file
-        if: ${{ matrix.target == 'steamdeck' }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: tag
           path: ~/tag
+          overwrite: true
           
       - name: Upload count file
-        if: ${{ matrix.target == 'steamdeck' }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: count
           path: ~/count
+          overwrite: true
           
       - name: Upload changelog file
-        if: ${{ matrix.target == 'steamdeck' }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: changelog
           path: ~/changelog
+          overwrite: true
           
   android: 
     runs-on: ubuntu-latest
