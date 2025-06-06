@@ -15,7 +15,6 @@ cd ffmpeg
     --disable-ffmpeg \
     --disable-ffprobe \
     --disable-network \
-    --disable-postproc \
     --disable-swresample \
     --disable-vaapi \
     --disable-vdpau \
