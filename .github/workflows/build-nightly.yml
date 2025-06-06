@@ -231,7 +231,7 @@ jobs:
             
       - name: Install dependencies
         run: |
-          brew install --formula autoconf automake boost ccache ffmpeg fmt glslang hidapi libtool nlohmann-json qt@6 sdl2 speexdsp zlib zlib cmake Catch2 molten-vk vulkan-loader
+          brew install --formula --quiet autoconf automake boost ccache ffmpeg fmt glslang hidapi libtool nlohmann-json qt@6 sdl2 speexdsp zlib cmake Catch2 molten-vk vulkan-loader
         
       - name: Compile Eden MacOS (${{ matrix.target }})
         run: |
