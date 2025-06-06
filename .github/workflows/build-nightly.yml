@@ -174,7 +174,7 @@ jobs:
         run: |
            mkdir -p D:/a/_temp
            VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.1/windows/vulkansdk-windows-X64-1.4.313.1.exe"
-           wget --retry-connrefused --tries=10 "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
+           wget -q --retry-connrefused --tries=10 "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
            echo "VULKAN_SDK=C:/VulkanSDK/1.4.313.1" >> $GITHUB_ENV
            echo "PATH=C:/VulkanSDK/1.4.313.1/Bin:$PATH" >> $GITHUB_ENV          
