@@ -25,9 +25,6 @@ cd ffmpeg
     --enable-filter=yadif,scale \
     --enable-d3d11va \
     --enable-hwaccel={h264_dxva2,h264_d3d11va,h264_d3d11va2,h264_nvdec,vp9_dxva2,vp9_d3d11va,vp9_d3d11va2,vp9_nvdec} \
-    --enable-nvdec \
-    --enable-ffnvcodec \
-    --enable-cuvid \
     --extra-cflags=-I/usr/local/cuda/include \
     --extra-ldflags=-L/usr/local/cuda/lib64 \
     --prefix=/
