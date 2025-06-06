@@ -63,6 +63,14 @@ cmake .. -G Ninja \
     -DCMAKE_SYSTEM_PROCESSOR=${ARCH} \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     "${EXTRA_CMAKE_FLAGS[@]}"
+
+if [[ "${ARCH}" == "ARM64" ]]; then
+    # Workaround for ffmpeg
+    INCLUDE_DIR="D:/a/eden-nightly/eden-nightly/eden/externals/vcpkg/packages/ffmpeg_arm64-windows/include/libavcodec"
+    wget https://github.com/FFmpeg/FFmpeg/raw/refs/heads/master/libavcodec/codec_internal.h \
+        -O "$INCLUDE_DIR/codec_internal.h"
+fi
+
 ninja
 
 # Use windeployqt to gather dependencies
