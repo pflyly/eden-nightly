@@ -148,20 +148,8 @@ jobs:
     env:
       TARGET: ${{ matrix.target }}
       ARCH: ${{ matrix.arch }}        
-      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg
     steps:
       - uses: actions/checkout@v4.2.2
-      
-      - name: Create vcpkg binary cache directory
-        run: mkdir -p "${{ env.VCPKG_DEFAULT_BINARY_CACHE }}"
-        
-      - name: Set up cache for vcpkg
-        uses: actions/cache@v4.2.3
-        with:
-          path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-          key: ${{ runner.os }}-${{ matrix.target }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.target }}-vcpkg-
 
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
@@ -184,11 +172,12 @@ jobs:
       - name: Install vulkan-sdk
         shell: bash
         run: |
-           VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.0/windows/vulkansdk-windows-X64-1.4.313.0.exe"
-           wget -q "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
+           mkdir -p D:/a/_temp
+           VULKAN_URL="https://sdk.lunarg.com/sdk/download/1.4.313.1/windows/vulkansdk-windows-X64-1.4.313.1.exe"
+           wget --retry-connrefused --tries=10 "$VULKAN_URL" -O D:/a/_temp/vulkan.exe
            D:/a/_temp/vulkan.exe --accept-licenses --default-answer --confirm-command install
-           echo "VULKAN_SDK=C:/VulkanSDK/1.4.313.0" >> $GITHUB_ENV
-           echo "PATH=C:/VulkanSDK/1.4.313.0/Bin:$PATH" >> $GITHUB_ENV          
+           echo "VULKAN_SDK=C:/VulkanSDK/1.4.313.1" >> $GITHUB_ENV
+           echo "PATH=C:/VulkanSDK/1.4.313.1/Bin:$PATH" >> $GITHUB_ENV          
         
       - name: Compile Eden Windows ${{ matrix.target }}
         shell: bash
