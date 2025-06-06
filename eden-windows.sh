@@ -2,6 +2,39 @@
 
 echo "Making Eden for Windows (MSVC)"
 
+if [[ "${ARCH}" == "ARM64" ]]; then
+# Workaround for ffmpeg
+git clone --depth=1 https://github.com/FFmpeg/FFmpeg.git ffmpeg
+cd ffmpeg
+./configure \
+    --arch=ARM64 \
+    --disable-avdevice \
+    --disable-avformat \
+    --disable-doc \
+    --disable-everything \
+    --disable-ffmpeg \
+    --disable-ffprobe \
+    --disable-network \
+    --disable-postproc \
+    --disable-swresample \
+    --disable-vaapi \
+    --disable-vdpau \
+    --enable-decoder={h264,vp8,vp9} \
+    --enable-avfilter \
+    --enable-shared \
+    --disable-iconv \
+    --enable-filter=yadif,scale \
+    --enable-d3d11va \
+    --enable-hwaccel={h264_dxva2,h264_d3d11va,h264_d3d11va2,h264_nvdec,vp9_dxva2,vp9_d3d11va,vp9_d3d11va2,vp9_nvdec} \
+    --enable-nvdec \
+    --enable-ffnvcodec \
+    --enable-cuvid \
+    --extra-cflags=-I/usr/local/cuda/include \
+    --extra-ldflags=-L/usr/local/cuda/lib64 \
+    --prefix=/
+fi
+
+cd ..
 # Clone Eden, fallback to mirror if upstream repo fails to clone
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
@@ -67,8 +100,7 @@ cmake .. -G Ninja \
 if [[ "${ARCH}" == "ARM64" ]]; then
     # Workaround for ffmpeg
     INCLUDE_DIR="D:/a/eden-nightly/eden-nightly/eden/externals/vcpkg/packages/ffmpeg_arm64-windows/include/libavcodec"
-    wget https://github.com/FFmpeg/FFmpeg/raw/refs/heads/master/libavcodec/codec_internal.h \
-        -O "$INCLUDE_DIR/codec_internal.h"
+    cp -v ../../ffmpeg/libavcodec/codec_internal.h ../../ffmpeg/config.h "$INCLUDE_DIR/"
 fi
 
 ninja
