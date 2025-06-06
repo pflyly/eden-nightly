@@ -16,7 +16,7 @@ This repository provides **nightly releases** of **Eden** for the following plat
 
 - **Linux** (`x86_64`, `aarch64`)
 - **Android**
-- **Windows** (`x86_64`, `arm64`) — **ARM64 is experimental**
+- **Windows** (`x86_64`, `arm64`) — **ARM64 is canceled for now**
 - **MacOS** (`x86_64`, `arm64`)
 
 > [!IMPORTANT]
