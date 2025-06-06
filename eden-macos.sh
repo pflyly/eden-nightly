@@ -12,8 +12,7 @@ fi
 # Workaround for ffmpeg
 git clone --depth=1 https://github.com/FFmpeg/FFmpeg.git ffmpeg
 cd ffmpeg
-mkdir -p build && cd build
-../configure \
+./configure \
     --disable-avdevice \
     --arch=$TARGET \
     --disable-avformat \
@@ -32,9 +31,9 @@ mkdir -p build && cd build
     --enable-shared \
     --disable-iconv \
     --enable-filter=yadif,scale
-cp ../libavcodec/codec_internal.h ./config.h "$INCLUDE_DIR/"
+cp -v ./libavcodec/codec_internal.h ./config.h "$INCLUDE_DIR/"
 
-cd ../../
+cd ..
 # Clone Eden, fallback to mirror if upstream repo fails to clone
 if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
 	echo "Using mirror instead..."
@@ -56,6 +55,7 @@ cmake .. -GNinja \
     -DENABLE_QT_TRANSLATION=ON \
     -DYUZU_ENABLE_LTO=ON \
     -DUSE_DISCORD_PRESENCE=OFF \
+    -DUSE_SYSTEM_MOLTENVK=ON \
     -DYUZU_USE_BUNDLED_FFMPEG=OFF \
     -DYUZU_CMD=OFF \
     -DYUZU_ROOM_STANDALONE=OFF \
