@@ -2,9 +2,11 @@
 
 echo "Making Eden for MacOS"
 if [ "$TARGET" = "arm64" ]; then
-    export LIBVULKAN_PATH=/opt/homebrew/lib/libvulkan.1.dylib
+    export LIBVULKAN_PATH="/opt/homebrew/lib/libvulkan.1.dylib"
+    INCLUDE_DIR="/opt/homebrew/include/libavcodec"
 else
-    export LIBVULKAN_PATH=/usr/local/lib/libvulkan.1.dylib
+    export LIBVULKAN_PATH="/usr/local/lib/libvulkan.1.dylib"
+    INCLUDE_DIR="/usr/local/include/libavcodec"
 fi
 
 # Clone Eden, fallback to mirror if upstream repo fails to clone
@@ -16,6 +18,9 @@ fi
 
 cd ./eden
 git submodule update --init --recursive
+
+# Workaround for ffmpeg
+wget https://github.com/FFmpeg/FFmpeg/raw/refs/heads/master/libavcodec/codec_internal.h -O "$INCLUDE_DIR/codec_internal.h"
 
 COUNT="$(git rev-list --count HEAD)"
 APP_NAME="Eden-${COUNT}-MacOS-${TARGET}"
