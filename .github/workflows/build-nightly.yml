@@ -7,6 +7,48 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  info: 
+    runs-on: ubuntu-latest
+    name: "Get info"
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+  
+      - name: Get the latest release tag
+        env:
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"      
+        run: |
+            api_url="https://api.github.com/repos/${{ github.repository }}"
+            latest_release_info=$(curl -H "Authorization: token $GH_TOKEN" "$api_url/releases/latest")
+            last_release_tag=$(echo "$latest_release_info" | jq -r '.tag_name')
+            echo "${last_release_tag}"
+            old_hash="${last_release_tag##*-}"
+            echo "OLD_HASH=$old_hash" >> "$GITHUB_ENV"
+       
+      - name: Generate changelog
+        run: |
+          chmod +x ./changelog.sh
+          ./changelog.sh
+          
+      - name: Upload tag file
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: tag
+          path: ~/tag
+          
+      - name: Upload count file
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: count
+          path: ~/count
+          
+      - name: Upload changelog file
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: changelog
+          path: ~/changelog
+          
   appimage: 
     runs-on: ${{ matrix.runs-on }}
     strategy:
@@ -44,17 +86,6 @@ jobs:
           chmod +x ./get-dependencies.sh
           ./get-dependencies.sh
           
-      - name: Get the latest release tag
-        env:
-          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"      
-        run: |
-            api_url="https://api.github.com/repos/${{ github.repository }}"
-            latest_release_info=$(curl -H "Authorization: token $GH_TOKEN" "$api_url/releases/latest")
-            last_release_tag=$(echo "$latest_release_info" | jq -r '.tag_name')
-            echo "${last_release_tag}"
-            old_hash="${last_release_tag##*-}"
-            echo "OLD_HASH=$old_hash" >> "$GITHUB_ENV"
-       
       - name: Compile Eden ${{ matrix.target }}
         run: |
           chmod +x ./eden-appimage.sh
@@ -67,27 +98,6 @@ jobs:
         with:
           name: eden-${{ matrix.target}}-appimage
           path: "dist"
-
-      - name: Upload tag file
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: tag
-          path: ~/tag
-          overwrite: true
-          
-      - name: Upload count file
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: count
-          path: ~/count
-          overwrite: true
-          
-      - name: Upload changelog file
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: changelog
-          path: ~/changelog
-          overwrite: true
           
   android: 
     runs-on: ubuntu-latest
@@ -234,7 +244,7 @@ jobs:
   release:
     name: "release"
     if: ${{ github.ref_name == 'main' }}
-    needs: [appimage, windows, android, macos]
+    needs: [info, appimage, windows, android, macos]
     permissions:
       actions: read
       security-events: write
