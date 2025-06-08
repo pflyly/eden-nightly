@@ -46,10 +46,6 @@ cd ./eden
 git submodule update --init --recursive
 COUNT="$(git rev-list --count HEAD)"
 
-# Generate release info and changelog
-chmod +x ../changelog.sh
-../changelog.sh
-
 # workaround for aarch64
 if [ "$1" = 'aarch64' ]; then
     sed -i 's/Settings::values\.lru_cache_enabled\.GetValue()/true/' src/core/arm/nce/patcher.h
