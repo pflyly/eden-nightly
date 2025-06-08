@@ -77,14 +77,11 @@ if [[ "${ARCH}" == "ARM64" ]]; then
  	# Use ARM64-specific Qt paths with windeployqt
  	"D:/a/eden-nightly/Qt/6.8.3/msvc2022_64/bin/windeployqt.exe" --qtpaths "D:/a/eden-nightly/Qt/6.8.3/msvc2022_arm64/bin/qtpaths6.bat" --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 else
-	windeployqt --release --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --dir deploy "$EXE_PATH"
+	windeployqt6 --release --no-compiler-runtime --no-opengl-sw --no-patchqt --no-quick --no-system-dxc-compiler --no-quick-import --no-system-d3d-compiler --dir deploy "$EXE_PATH"
 fi
 
 # Delete un-needed debug files 
 find deploy -type f -name "*.pdb" -exec rm -fv {} +
-# Delete DX components, users should have them already
-rm -fv deploy/dxcompiler.dll
-rm -fv deploy/dxil.dll
 
 # Pack for upload
 mkdir -p artifacts
