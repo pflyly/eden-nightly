@@ -2,6 +2,17 @@
 
 set -ex
 
+echo "Generating changelog for release"
+
+# Clone Eden, fallback to mirror if upstream repo fails to clone
+if ! git clone 'https://git.eden-emu.dev/eden-emu/eden.git' ./eden; then
+	echo "Using mirror instead..."
+	rm -rf ./eden || true
+	git clone 'https://github.com/pflyly/eden-mirror.git' ./eden
+fi
+cd ./eden
+git submodule update --init --recursive
+
 # Get current commit info
 COUNT="$(git rev-list --count HEAD)"
 DATE="$(date +"%Y-%m-%d")"
