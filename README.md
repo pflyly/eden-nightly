@@ -26,29 +26,28 @@ This repository provides **nightly releases** of **Eden** for the following plat
 
 ---------------------------------------------------------------
 
-### Linux Builds
+### 🐧 Linux Builds
 
-The **AppImage** for Linux is built using [**Sharun**](https://github.com/VHSgunzo/sharun) with several compliler optimization flags targeting:
+The **AppImage** for Linux is built with several compliler optimization flags targeting:
 
 - **Steam Deck** — optimized for `znver2` (Zen 2)
 - **AArch64 devices** — compatible with `aarch64` architecture
 - **Modern x86_64 CPUs** — optimized for `x86-64-v3` (via the Common Build)
 
-Each AppImage is bundled with **Mesa drivers** to ensure maximum compatibility and may provide the latest fixes for certain games.
+AppImages built using [**Sharun**](https://github.com/VHSgunzo/sharun) are bundled with **Mesa drivers** to ensure maximum compatibility — similar to Eden’s official releases and may include the latest fixes for certain games (though untested).
 
-A **Light version** is also available, which excludes Mesa drivers for a more lightweight build and relies on the system’s native graphics drivers.
+A **Light version** is also available, built with **linuxdeploy**. It does **not** include Mesa drivers, resulting in a more lightweight build that relies on the system’s native graphics drivers — similar to many other emulators.
 > ⚠️ The `aarch64` build is based on a workaround change and is intended for testing purposes only.
 >
 > If you encounter any problems, you're welcome to open an issue.
-
 
 These builds should work on any linux distro.
 
 ---------------------------------------------------------------
 
-### Android Builds
+### 🤖 Android Builds
 
-Eden for Android is available in two versions:
+Eden nightly for Android is available in two versions:
 
 - **Replace** Build
   
@@ -60,7 +59,7 @@ Uses a nightly application ID, allowing it to coexist with the official Eden rel
 
 ---------------------------------------------------------------
 
-### Windows Builds
+### 🪟 Windows Builds
 
 > ⚠️ The Windows **ARM64** build is based on **work-in-progress (WIP)** changes and is intended for testing purposes only.
 >
@@ -68,7 +67,7 @@ Uses a nightly application ID, allowing it to coexist with the official Eden rel
 
 ---------------------------------------------------------------
 
-### MacOS Builds
+### 🍎 MacOS Builds
 
 > ⚠️ MacOS builds are **not officially supported** at the moment and are provided for **testing purposes only**.
 >   
