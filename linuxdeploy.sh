@@ -6,7 +6,7 @@ export APPIMAGE_EXTRACT_AND_RUN=1
 export ARCH=$(uname -m)
 
 BUILD_DIR=$(realpath "$1")
-APPDIR="${BUILD_DIR}/AppDir"
+APPDIR="${BUILD_DIR}/light/AppDir"
 
 cd "${BUILD_DIR}"
 
@@ -29,10 +29,10 @@ export EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so;libqxcb
 export EXTRA_QT_PLUGINS="svg;wayland-decoration-client;wayland-graphics-integration-client;wayland-shell-integration;waylandcompositor;xcb-gl-integration;platformthemes/libqt6ct.so"
 
 # start to deploy
-NO_STRIP=1 ./linuxdeploy --appdir ./AppDir --plugin qt --plugin checkrt
+NO_STRIP=1 ./linuxdeploy --appdir ./light/AppDir --plugin qt --plugin checkrt
 
 # remove libvulkan because it causes issues with gamescope
-rm -fv ./AppDir/usr/lib/libvulkan.so*
+rm -fv ./light/AppDir/usr/lib/libvulkan.so*
 
 # Bundle libsdl3 to AppDir, needed for steamdeck
-cp /usr/lib/libSDL3.so* ./AppDir/usr/lib/
+cp /usr/lib/libSDL3.so* ./light/AppDir/usr/lib/
