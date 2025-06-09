@@ -90,14 +90,18 @@ jobs:
         run: |
           chmod +x ./eden-appimage.sh
           ./eden-appimage.sh ${{ matrix.target }}
-          mkdir -p dist
-          mv *.AppImage* dist/
 
-      - name: Upload artifact
+      - name: Upload appimage with mesa
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: eden-${{ matrix.target}}-appimage
-          path: "dist"
+          name: eden-${{ matrix.target}}-mesa-appimage
+          path: mesa
+
+      - name: Upload appimage light
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: eden-${{ matrix.target}}-light-appimage
+          path: light        
           
   android: 
     runs-on: ubuntu-latest
@@ -150,9 +154,9 @@ jobs:
            - target: x86_64
              arch: x86_64
              qt_arch: win64_msvc2022_64
-           - target: x86_arm64
-             arch: ARM64
-             qt_arch: win64_msvc2022_arm64_cross_compiled
+#           - target: x86_arm64
+#             arch: ARM64
+#             qt_arch: win64_msvc2022_arm64_cross_compiled
     env:
       TARGET: ${{ matrix.target }}
       ARCH: ${{ matrix.arch }}        
@@ -253,48 +257,52 @@ jobs:
     steps:    
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-steamdeck-appimage
-        continue-on-error: true
- 
+           name: eden-steamdeck-mesa-appimage
+           
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-common-appimage
-        continue-on-error: true
-        
+           name: eden-steamdeck-light-appimage 
+           
       - uses: actions/download-artifact@v4.3.0
         with:
-           name: eden-aarch64-appimage
-        continue-on-error: true
-        
+           name: eden-common-mesa-appimage
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-common-light-appimage
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-aarch64-mesa-appimage
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-aarch64-light-appimage
+           
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-android-Replace
-        continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-android-Coexist
-        continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-windows-msvc-x86_64
-        continue-on-error: true
         
-      - uses: actions/download-artifact@v4.3.0
-        with:
-           name: eden-windows-msvc-x86_arm64
-        continue-on-error: true
+#      - uses: actions/download-artifact@v4.3.0
+#        with:
+#           name: eden-windows-msvc-x86_arm64
+#        continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-macos-x86_64
-        continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-macos-arm64
-        continue-on-error: true
         
       - uses: actions/download-artifact@v4.3.0
         with:
@@ -316,15 +324,15 @@ jobs:
           cat changelog >> "${GITHUB_ENV}"
           echo "EOF" >> "${GITHUB_ENV}"    
 
-      - name: Delete same tag release
-        run: |
-          gh release delete "${{ env.TAG }}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
-          sleep 10
-        env:
-          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        continue-on-error: true
+#      - name: Delete same tag release
+#        run: |
+#          gh release delete "${{ env.TAG }}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
+#          sleep 10
+#        env:
+#          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+#        continue-on-error: true
 
-      - name: Build Releaser
+      - name: Release Eden
         uses: softprops/action-gh-release@v2
         with:
           name: "Eden Nightly Release: ${{ env.COUNT }}"
