@@ -56,7 +56,6 @@ cd build
 cmake .. -GNinja \
     -DYUZU_USE_BUNDLED_VCPKG=OFF \
     -DYUZU_USE_BUNDLED_QT=OFF \
-    -DUSE_SYSTEM_QT=ON \
     -DYUZU_TESTS=OFF \
     -DYUZU_CHECK_SUBMODULES=OFF \
     -DYUZU_USE_FASTER_LD=ON \
@@ -94,18 +93,27 @@ chmod +x ./uruntime
 echo "Adding update information \"$UPINFO\" to runtime..."
 ./uruntime --appimage-addupdinfo "$UPINFO"
 
-# Turn AppDir into appimage
+# Turn AppDir into appimage and upload seperately
 echo "Generating AppImage with mesa"
+MESA_APPIMAGE="Eden-${COUNT}-${TARGET}-${ARCH}.AppImage"
 ./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B32 \
---header uruntime -i ./eden/build/mesa/AppDir -o Eden-"${COUNT}"-"${TARGET}"-"$ARCH".AppImage
+--header uruntime -i ./eden/build/mesa/AppDir -o "$MESA_APPIMAGE"
 
-# echo "Generating AppImage without mesa"
+echo "Generating zsync file for $MESA_APPIMAGE"
+zsyncmake -v "$MESA_APPIMAGE" -u "$MESA_APPIMAGE"
+
+mkdir -p mesa
+mv "${MESA_APPIMAGE}"* mesa/
+
+echo "Generating AppImage without mesa"
+LIGHT_APPIMAGE="Eden-${COUNT}-${TARGET}-light-${ARCH}.AppImage"
 ./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B32 \
---header uruntime -i ./eden/build/light/AppDir -o Eden-"${COUNT}"-"${TARGET}"-light-"$ARCH".AppImage
+--header uruntime -i ./eden/build/light/AppDir -o "$LIGHT_APPIMAGE"
 
-for appimage in *.AppImage; do
-  echo "Generating zsync file for $appimage"
-  zsyncmake -v "$appimage" -u "$appimage"
-done
+echo "Generating zsync file for $LIGHT_APPIMAGE"
+zsyncmake -v "$LIGHT_APPIMAGE" -u "$LIGHT_APPIMAGE"
+
+mkdir -p light
+mv "${LIGHT_APPIMAGE}"* light/
 
 echo "All Done!"
