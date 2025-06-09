@@ -34,7 +34,9 @@ The **AppImage** for Linux is built using [**Sharun**](https://github.com/VHSgun
 - **AArch64 devices** — compatible with `aarch64` architecture
 - **Modern x86_64 CPUs** — optimized for `x86-64-v3` (via the Common Build)
 
-Each AppImage is bundled with **Mesa drivers** to ensure maximum compatibility and may provide the latest fixes for certain games.  
+Each AppImage is bundled with **Mesa drivers** to ensure maximum compatibility and may provide the latest fixes for certain games.
+
+A **Light version** is also available, which excludes Mesa drivers for a more lightweight build and relies on the system’s native graphics drivers.
 > ⚠️ The `aarch64` build is based on a workaround change and is intended for testing purposes only.
 >
 > If you encounter any problems, you're welcome to open an issue.
