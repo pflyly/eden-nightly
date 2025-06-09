@@ -81,9 +81,13 @@ if [ "$1" != 'aarch64' ]; then
 fi
 
 cd ../..
-# Use sharun to generate AppDir
+# Use sharun to generate AppDir with mesa drivers
 chmod +x ./sharun.sh
 ./sharun.sh ./eden/build
+
+# Use linuxdeploy to generate AppDir without mesa drivers
+chmod +x ./linuxdeploy.sh
+./linuxdeploy.sh ./eden/build
 
 # Prepare uruntime
 wget -q "$URUNTIME" -O ./uruntime
