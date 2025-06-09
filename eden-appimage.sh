@@ -103,7 +103,7 @@ echo "Generating zsync file for $MESA_APPIMAGE"
 zsyncmake -v "$MESA_APPIMAGE" -u "$MESA_APPIMAGE"
 
 mkdir -p mesa
-mv "${MESA_APPIMAGE}"* mesa/
+mv -v "${MESA_APPIMAGE}"* mesa/
 
 echo "Generating AppImage without mesa"
 LIGHT_APPIMAGE="Eden-${COUNT}-${TARGET}-light-${ARCH}.AppImage"
@@ -114,6 +114,6 @@ echo "Generating zsync file for $LIGHT_APPIMAGE"
 zsyncmake -v "$LIGHT_APPIMAGE" -u "$LIGHT_APPIMAGE"
 
 mkdir -p light
-mv "${LIGHT_APPIMAGE}"* light/
+mv -v "${LIGHT_APPIMAGE}"* light/
 
 echo "All Done!"
