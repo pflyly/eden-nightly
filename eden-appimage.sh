@@ -94,6 +94,7 @@ chmod +x ./linuxdeploy.sh
 wget -q "$URUNTIME" -O ./uruntime
 chmod +x ./uruntime
 wget -q "$PELF" -O ./pelf
+chmod +x ./pelf
 
 # Add udpate info to runtime
 echo "Adding update information \"$UPINFO\" to runtime..."
