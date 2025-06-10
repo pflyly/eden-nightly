@@ -28,7 +28,7 @@ This repository provides **nightly releases** of **Eden** for the following plat
 
 ### 🐧 Linux Builds
 
-The **AppImage** for Linux is built with several compliler optimization flags targeting:
+The builds for Linux are built with several CPU-specific compliler optimization flags targeting:
 
 - **Steam Deck** — optimized for `znver2` (Zen 2)
 - **AArch64 devices** — compatible with `aarch64` architecture
@@ -36,7 +36,10 @@ The **AppImage** for Linux is built with several compliler optimization flags ta
 
 AppImages built using [**Sharun**](https://github.com/VHSgunzo/sharun) are bundled with **Mesa drivers** to ensure maximum compatibility — similar to Eden’s official releases and may include the latest fixes for certain games (though untested).
 
-A **Light version** is also available, built with **linuxdeploy**. It does **not** include Mesa drivers, resulting in a more lightweight build that relies on the system’s native graphics drivers — similar to many other emulators.
+A newly added **AppBundle** version, built with [**pelf**](https://github.com/xplshn/pelf), serves as an alternative to AppImage. It's a lightweight format written in Go and intended for broader Linux compatibility.
+
+A **Light version** Appimage is also available, built with **linuxdeploy**. It does **not** include Mesa drivers, resulting in a more lightweight build that relies on the system’s native graphics drivers — similar to many other emulators.
+
 > ⚠️ The `aarch64` build is based on a workaround change and is intended for testing purposes only.
 >
 > If you encounter any problems, you're welcome to open an issue.
