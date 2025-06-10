@@ -96,7 +96,13 @@ jobs:
         with:
           name: eden-${{ matrix.target}}-mesa-appimage
           path: mesa
-
+          
+      - name: Upload appbundle with mesa
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: eden-${{ matrix.target}}-mesa-appbundle
+          path: bundle
+          
       - name: Upload appimage light
         uses: actions/upload-artifact@v4.6.2
         with:
@@ -261,6 +267,10 @@ jobs:
            
       - uses: actions/download-artifact@v4.3.0
         with:
+           name: eden-steamdeck-mesa-appbundle
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
            name: eden-steamdeck-light-appimage 
            
       - uses: actions/download-artifact@v4.3.0
@@ -269,11 +279,19 @@ jobs:
            
       - uses: actions/download-artifact@v4.3.0
         with:
+           name: eden-common-mesa-appbundle
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
            name: eden-common-light-appimage
            
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-aarch64-mesa-appimage
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-aarch64-mesa-appbundle
            
       - uses: actions/download-artifact@v4.3.0
         with:
@@ -344,4 +362,4 @@ jobs:
           fail_on_unmatched_files: false
           make_latest: true
           files: |
-            *.AppImage*, *.7z, *.apk
+            *.AppImage*, *.AppBundle*, *.7z, *.apk
