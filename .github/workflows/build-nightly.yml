@@ -333,7 +333,7 @@ jobs:
 #        continue-on-error: true
 
       - name: Release Eden
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.2.2
         with:
           name: "Eden Nightly Release: ${{ env.COUNT }}"
           tag_name: "${{ env.TAG }}"
