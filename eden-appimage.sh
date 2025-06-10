@@ -113,11 +113,8 @@ mkdir -p mesa
 mv -v "${MESA_APPIMAGE}"* mesa/
 
 echo "Generating AppBundle...(Go runtime)"
-APPBUNDLE="Eden-${COUNT}-${TARGET}-${ARCH}.AppBundle"
-./pelf --add-appdir ./eden/build/mesa/AppDir \
-	--appbundle-id="Eden-${COUNT}" \
-	--compression "-C zstd:level=22 -S26 -B8" \
-	--output-to "$APPBUNDLE"
+APPBUNDLE="Eden-${COUNT}-${TARGET}-${ARCH}.dwfs.AppBundle"
+./pelf --add-appdir ./eden/build/mesa/AppDir --appbundle-id="Eden-${COUNT}" --compression "-C zstd:level=22 -S26 -B8" --output-to "$APPBUNDLE"
  
 echo "Generating zsync file for $APPBUNDLE"
 zsyncmake -v "$APPBUNDLE" -u "$APPBUNDLE"
