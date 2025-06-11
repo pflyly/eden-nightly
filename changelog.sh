@@ -36,8 +36,9 @@ START_COUNT=$(git rev-list --count "$OLD_HASH")
 i=$((START_COUNT + 1))
 
 # Add reminder and Release Overview link
-echo "This repository is intended to provide an easy way to try out the latest features from recent commits — that's what **Nightly** builds are for!" > "$CHANGELOG_FILE"
-echo "These builds are **experimental and may be unstable**, so use them at your own discretion." >> "$CHANGELOG_FILE"
+echo ">[!WARNING]" > "$CHANGELOG_FILE"
+echo "**This repository is not affiliated with the official Eden development team. It exists solely to provide an easy way for users to try out the latest features from recent commits.**" >> "$CHANGELOG_FILE"
+echo "**These builds are experimental and may be unstable. Use them at your own risk, and please do not report issues from these builds to the official channels unless confirmed on official releases.**" >> "$CHANGELOG_FILE"
 echo >> "$CHANGELOG_FILE"
 echo "> [!IMPORTANT]" >> "$CHANGELOG_FILE"
 echo "> See the **[Release Overview](https://github.com/pflyly/eden-nightly?tab=readme-ov-file#release-overview)** section for detailed differences between builds." >> "$CHANGELOG_FILE"
@@ -60,7 +61,7 @@ echo "Full Changelog: [\`${RELEASE_TAG}...master\`](${BASE_COMPARE_URL}/${RELEAS
 echo >> "$CHANGELOG_FILE"
 
 # Generate release table
-echo "## Nightly Release: ${COUNT}" >> "$CHANGELOG_FILE"
+echo "## Unofficial Nightly Release: ${COUNT}" >> "$CHANGELOG_FILE"
 echo "| Platform | Target / Arch | |" >> "$CHANGELOG_FILE"
 echo "|--|--|--|" >> "$CHANGELOG_FILE"
 echo "| Linux (AppImage) | **Full Builds (Sharun, with Mesa)**<br><sub>Best compatibility — includes Mesa drivers</sub><br>────────────────<br>\
@@ -75,6 +76,6 @@ echo "| Linux (AppBundle) | **AppImage alternative**<br>────────
 [\`Common x86_64_v3\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Common-x86_64_v3.dwfs.AppBundle)<br><br>\
 [\`Steamdeck x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Steamdeck-x86_64.dwfs.AppBundle)<br><br>\
 [\`aarch64 (Experimental)\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Linux-aarch64.dwfs.AppBundle) |" >> "$CHANGELOG_FILE"
-echo "| Android | [\`Coexist\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Android-Coexist.apk)<br><br>[\`Replace\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Android-Replace.apk) |" >> "$CHANGELOG_FILE"
+echo "| Android | **Cancelled** |" >> "$CHANGELOG_FILE"
 echo "| Windows | [~~ARM64~~]*(Unavailable)*<br><br>[\`x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Windows-x86_64.7z) |" >> "$CHANGELOG_FILE"
 echo "| MacOS (Experimental) | [\`arm64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-MacOS-arm64.7z)<br><br>[\`x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-MacOS-x86_64.7z) |" >> "$CHANGELOG_FILE"
