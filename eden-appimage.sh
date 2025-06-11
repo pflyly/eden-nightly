@@ -25,6 +25,14 @@ case "$1" in
 	CCACHE="ccache"
         ARCH="${ARCH}_v3"
         TARGET="Common"
+        ;;
+    legacy)
+        echo "Making Eden Optimized Build for Legacy CPUs"
+        CMAKE_CXX_FLAGS="-march=x86-64 -mtune=generic -O2 -pipe -flto=auto -Wno-error"
+        CMAKE_C_FLAGS="-march=x86-64 -mtune=generic -O2 -pipe -flto=auto -Wno-error"
+	YUZU_USE_PRECOMPILED_HEADERS=OFF
+	CCACHE="ccache"
+        TARGET="Legacy"
         ;;	
     aarch64)
         echo "Making Eden Optimized Build for AArch64"
