@@ -19,7 +19,7 @@ sed -i 's/resValue("string", "app_name_suffixed", "eden")/resValue("string", "ap
 sed -i 's|<string name="app_name"[^>]*>.*</string>|<string name="app_name" translatable="false">Eden Unofficial</string>|' src/android/app/src/main/res/values/strings.xml
 
 COUNT="$(git rev-list --count HEAD)"
-APK_NAME="Eden-${COUNT}-Android-${TARGET}"
+APK_NAME="Eden-${COUNT}-Android-Unofficial-${TARGET}"
 
 cd src/android
 chmod +x ./gradlew
