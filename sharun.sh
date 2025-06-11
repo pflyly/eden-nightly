@@ -59,8 +59,8 @@ genarate_appdir() {
     mkdir -p "$appdir"
     cd "$appdir"
 
-    cp -v /usr/share/applications/eden.desktop ./eden.desktop
-    cp -v /usr/share/icons/hicolor/scalable/apps/eden.svg ./eden.svg
+    cp -v /usr/share/applications/org.eden_emu.eden.desktop ./eden.desktop
+    cp -v /usr/share/icons/hicolor/scalable/apps/org.eden_emu.eden.svg ./eden.svg
     ln -sfv ./eden.svg ./.DirIcon
 
     wget --retry-connrefused --tries=30 "$LIB4BN" -O ./lib4bin
