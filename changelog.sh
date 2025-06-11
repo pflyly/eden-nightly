@@ -64,11 +64,11 @@ echo >> "$CHANGELOG_FILE"
 echo "## Unofficial Nightly Release: ${COUNT}" >> "$CHANGELOG_FILE"
 echo "| Platform | Target / Arch | |" >> "$CHANGELOG_FILE"
 echo "|--|--|--|" >> "$CHANGELOG_FILE"
-echo "| Linux (AppImage) | **Full Builds (Sharun, with Mesa)**<br><sub>Best compatibility — includes Mesa drivers</sub><br>────────────────<br>\
+echo "| Linux (AppImage) | **Full Builds (Built with Sharun)**<br><sub>Best compatibility — includes Mesa drivers</sub><br>────────────────<br>\
 [\`Common x86_64_v3\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Common-x86_64_v3.AppImage) ~ 92 MB<br><br>\
 [\`Steamdeck x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Steamdeck-x86_64.AppImage) ~ 92 MB<br><br>\
 [\`aarch64 (Experimental)\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Linux-aarch64.AppImage) ~ 88 MB | \
-**Light Builds (linuxdeploy, no Mesa)**<br><sub>Lighter size — uses system drivers</sub><br>────────────────<br>\
+**Light Builds (Built with Linuxdeploy)**<br><sub>Lighter size — uses system drivers</sub><br>────────────────<br>\
 [\`Common-light x86_64_v3\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Common-light-x86_64_v3.AppImage) ~ 36 MB<br><br>\
 [\`Steamdeck-light x86_64\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Steamdeck-light-x86_64.AppImage) ~ 36 MB<br><br>\
 [\`aarch64-light (Experimental)\`](${BASE_DOWNLOAD_URL}/${TAG}/Eden-${COUNT}-Linux-light-aarch64.AppImage) ~ 35 MB |" >> "$CHANGELOG_FILE"
