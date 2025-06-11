@@ -57,6 +57,8 @@ jobs:
           - target: steamdeck
             runs-on: ubuntu-latest
           - target: common
+            runs-on: ubuntu-latest
+          - target: legacy
             runs-on: ubuntu-latest            
           - target: aarch64
             runs-on: ubuntu-24.04-arm
@@ -284,6 +286,18 @@ jobs:
       - uses: actions/download-artifact@v4.3.0
         with:
            name: eden-common-light-appimage
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-legacy-mesa-appimage
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-legacy-mesa-appbundle
+           
+      - uses: actions/download-artifact@v4.3.0
+        with:
+           name: eden-legacy-light-appimage
            
       - uses: actions/download-artifact@v4.3.0
         with:
