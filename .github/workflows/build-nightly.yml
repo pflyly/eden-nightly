@@ -176,16 +176,16 @@ jobs:
       ARCH: ${{ matrix.arch }}
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
       VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.host_triplet }}
-      VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/vcpkg_cache,readwrite      
+      VCPKG_BINARY_SOURCES: clear;files,vcpkg_cache,readwrite      
     steps:
       - uses: actions/checkout@v4.2.2
 
       - name: Restore vcpkg cache
         uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
-          path: ${{ github.workspace }}/vcpkg_cache
-          key: vcpkg-${{ matrix.os }}-${{ matrix.triplet }}-${{ hashFiles('vcpkg.json') }}
-          restore-keys: vcpkg-${{ matrix.os }}-${{ matrix.triplet }}-
+          path: vcpkg_cache
+          key: vcpkg-${{ matrix.os }}-${{ matrix.triplet }}-${{ matrix.target }}-${{ hashFiles('vcpkg.json') }}
+          restore-keys: vcpkg-${{ matrix.os }}-${{ matrix.triplet }}-${{ matrix.target }}-
           
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
@@ -230,7 +230,7 @@ jobs:
       - name: Save vcpkg cache
         uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
-          path: ${{ github.workspace }}/vcpkg_cache
+          path: vcpkg_cache
           key: vcpkg-${{ matrix.os }}-${{ matrix.triplet }}-${{ hashFiles('vcpkg.json') }}
           
   macos:
