@@ -62,7 +62,11 @@ genarate_appdir() {
     cp -v /usr/share/applications/org.eden_emu.eden.desktop ./eden.desktop
     cp -v /usr/share/icons/hicolor/scalable/apps/org.eden_emu.eden.svg ./eden.svg
     ln -sfv ./eden.svg ./.DirIcon
-
+    
+    # temp workaround for arch being silly
+    mkdir -p share/X11
+    cp -r /usr/share/X11/xkb share/X11
+    
     wget --retry-connrefused --tries=30 "$LIB4BN" -O ./lib4bin
     chmod +x ./lib4bin
     ./lib4bin "${lib4bin_flags[@]}" \
