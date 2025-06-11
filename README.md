@@ -31,8 +31,9 @@ This repository provides **unofficial nightly releases** of **Eden** for the fol
 The builds for Linux are built with several CPU-specific compliler optimization flags targeting:
 
 - **Steam Deck** — optimized for `znver2` (Zen 2)
-- **AArch64 devices** — compatible with `aarch64` architecture
 - **Modern x86_64 CPUs** — optimized for `x86-64-v3` (via the Common Build)
+- **Legacy x86_64 CPUs** — compatible with baseline `x86-64` (via the Legacy Build)
+- **AArch64 devices** — compatible with `aarch64` architecture
 
 AppImages built using [**Sharun**](https://github.com/VHSgunzo/sharun) are bundled with **Mesa drivers** to ensure maximum compatibility — similar to Eden’s official releases and may include the latest fixes for certain games (though untested).
 
