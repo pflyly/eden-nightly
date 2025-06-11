@@ -2,7 +2,7 @@
   <br>
   <a href="https://git.eden-emu.dev/eden-emu/eden"><img src="https://git.eden-emu.dev/eden-emu/eden/raw/branch/master/dist/eden.ico" width="200"></a>
   <br>
-  <b>Eden Nightly Release</b>
+  <b>Unofficial Eden Nightly Release</b>
   <br>
 </h1>
 
@@ -12,17 +12,17 @@
 
 ## Release Overview
 
-This repository provides **nightly releases** of **Eden** for the following platforms:
+This repository provides **unofficial nightly releases** of **Eden** for the following platforms:
 
 - **Linux** (`x86_64`, `aarch64`)
-- **Android**
-- **Windows** (`x86_64`, `arm64`) — **ARM64 is canceled for now**
+- **Android** — *Cancelled from release for now*
+- **Windows** (`x86_64`, `arm64`) — *ARM64 is cancelled for now*
 - **MacOS** (`x86_64`, `arm64`)
 
-> [!IMPORTANT]
-> This repository is intended to provide an easy way to try out the latest features from recent commits — that's what **Nightly** builds are for!
-> 
-> These builds are **experimental and may be unstable**, so use them at your own discretion.
+>[!WARNING]
+>**This repository is not affiliated with the official Eden development team. It exists solely to provide an easy way for users to try out the latest features from recent commits.**
+>
+>**These builds are experimental and may be unstable. Use them at your own risk, and please do not report issues from these builds to the official channels unless confirmed on official releases.**
 
 ---------------------------------------------------------------
 
@@ -58,7 +58,7 @@ Shares the same application ID as the official Eden release. Installing this ver
 
 - **Coexist** Build
   
-Uses a nightly application ID, allowing it to coexist with the official Eden release. It appears as "**eden nightly**" on the home screen, and "**Eden Nightly**" on the main screen of eden.
+Uses a nightly application ID, allowing it to coexist with the official Eden release. It appears as "**eden unofficial**" on the home screen, and "**Eden Unofficial**" on the main screen of eden.
 
 ---------------------------------------------------------------
 
