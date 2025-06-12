@@ -9,11 +9,12 @@ LIB4BN="https://raw.githubusercontent.com/VHSgunzo/sharun/refs/heads/main/lib4bi
 
 BUILD_DIR=$(realpath "$1")
 APPDIR="${BUILD_DIR}/mesa/AppDir"
+
+cd "${BUILD_DIR}"
+sudo ninja install
+
 mkdir -p "${APPDIR}"
 cd "${APPDIR}"
-
-# Install eden
-sudo ninja install
 
 cp -v /usr/share/applications/org.eden_emu.eden.desktop ./eden.desktop
 cp -v /usr/share/icons/hicolor/scalable/apps/org.eden_emu.eden.svg ./eden.svg
