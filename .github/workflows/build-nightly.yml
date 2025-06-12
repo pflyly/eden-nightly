@@ -79,7 +79,7 @@ jobs:
         uses: actions/cache@v4.2.3
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-ccache-${{ matrix.target }}-${{ github.sha }}
+          key: ${{ runner.os }}-ccache-${{ matrix.target }}-${{ hashFiles('vcpkg.json') }}
           restore-keys: |
             ${{ runner.os }}-ccache-${{ matrix.target }}-
             
@@ -234,7 +234,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-${{ matrix.target }}-ccache-${{ github.sha }}
+          key: ${{ runner.os }}-${{ matrix.target }}-ccache-${{ hashFiles('vcpkg.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.target }}-ccache-
             
@@ -256,7 +256,7 @@ jobs:
   release:
     name: "release"
     if: ${{ github.ref_name == 'main' }}
-    needs: [info, appimage, windows, android, macos]
+    needs: [info, appimage, windows, macos]
     permissions:
       actions: read
       security-events: write
@@ -356,18 +356,10 @@ jobs:
           cat changelog >> "${GITHUB_ENV}"
           echo "EOF" >> "${GITHUB_ENV}"    
 
-#      - name: Delete same tag release
-#        run: |
-#          gh release delete "${{ env.TAG }}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
-#          sleep 10
-#        env:
-#          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-#        continue-on-error: true
-
       - name: Release Eden
         uses: softprops/action-gh-release@v2.2.2
         with:
-          name: "Eden Nightly Release: ${{ env.COUNT }}"
+          name: "Eden Unofficial Nightly Release: ${{ env.COUNT }}"
           tag_name: "${{ env.TAG }}"
           body: "${{ env.BODY }}"
           prerelease: false
